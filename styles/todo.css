@@ -1,31 +1,35 @@
 .todo-list {
     max-width: 600px;
     margin: 0 auto;
+    padding: 16px;
 }
 
 .todo-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .todo-items {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
 }
 
 .todo-item {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem;
-    border-bottom: 1px solid var(--gray);
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px dotted var(--gray-4);
+    font-family: var(--font-mono);
 }
 
 .todo-item input[type="checkbox"] {
-    margin-right: 0.5rem;
+    margin-right: 8px;
 }
 
 .todo-item span {

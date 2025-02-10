@@ -15,13 +15,15 @@ export function useWeather() {
 
     const getWeatherIcon = (condition) => {
         const icons = {
-            'Clear': '●',
-            'Partly cloudy': '◐',
-            'Cloudy': '○',
-            'Rain': '☂',
-            'Snow': '❆',
-            'Thunderstorm': '⚡',
-            'Mist': '◌'
+            'Clear': '●',               // Solid circle for sun
+            'Partly cloudy': '◐',       // Half circle for partial clouds
+            'Cloudy': '○',              // Empty circle for full cloud cover
+            'Rain': '☂',                // Umbrella for rain
+            'Snow': '❆',                // Snowflake for snow
+            'Thunderstorm': '⚡',        // Lightning bolt for thunderstorm
+            'Mist': '≋',                // Waves for mist/fog
+            'Wind': '⇶',                // Wind direction arrow
+            'Humidity': '∿'             // Wave for humidity
         }
         return icons[condition] || '●'
     }

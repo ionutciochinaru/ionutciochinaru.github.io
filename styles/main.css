@@ -1,17 +1,27 @@
 :root {
+    /* Colors */
     --black: #000000;
+    --gray-1: #111111;
+    --gray-2: #333333;
+    --gray-3: #666666;
+    --gray-4: #888888;
     --white: #ffffff;
-    --gray: #888888;
+
+    /* Typography */
+    --font-mono: 'Courier Prime', monospace;
+    --font-system: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    -webkit-font-smoothing: none;
+    font-smooth: never;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-system);
     background: var(--white);
     color: var(--black);
     min-height: 100vh;
@@ -27,22 +37,22 @@ body {
     flex: 1;
     position: relative;
     overflow: hidden;
+    height: 724px; /* Kindle browser height */
 }
 
 .page {
     position: absolute;
     width: 100%;
     height: 100%;
-    transition: transform 0.3s ease;
-    padding: 1rem;
+    padding: 8px;
 }
 
+/* Base components */
 button {
     background: var(--black);
     color: var(--white);
     border: none;
     padding: 8px 16px;
-    cursor: pointer;
     font-size: 1em;
 }
 
