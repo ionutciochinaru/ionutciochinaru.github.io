@@ -1,3 +1,4 @@
+/* Base styles with dithering patterns */
 :root {
     /* Colors */
     --black: #000000;
@@ -6,6 +7,13 @@
     --gray-3: #666666;
     --gray-4: #888888;
     --white: #ffffff;
+
+    /* Spacing scale */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
 
     /* Typography */
     --font-mono: 'Courier Prime', monospace;
@@ -25,39 +33,185 @@ body {
     background: var(--white);
     color: var(--black);
     min-height: 100vh;
+    padding-bottom: calc(48px + var(--space-md) * 2);
 }
 
-.app {
-    min-height: 100vh;
+/* Border utilities */
+.border--h-1 { border-bottom: 1px dotted #000; }
+.border--h-2 { border-bottom: 2px solid #000; }
+.border--v-1 { border-right: 1px dotted #000; }
+.border--v-2 { border-right: 2px solid #000; }
+
+/* List styles */
+.list-container {
     display: flex;
     flex-direction: column;
+    gap: var(--space-sm);
 }
 
-.main-content {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-    height: 724px; /* Kindle browser height */
+.list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-xs) 0;
 }
 
-.page {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    padding: 8px;
+.list--bordered .list-item {
+    border-bottom: 1px dotted #000;
 }
 
-/* Base components */
-button {
+.list-marker {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-lg);
+    padding: var(--space-sm);
+    background: var(--white);
+}
+
+.nav-sticky {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 1px solid var(--black);
+}
+
+.nav-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--black);
+    font-size: 18px;
+}
+
+.nav-dots {
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+}
+
+.nav-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid var(--black);
+    background: var(--white);
+}
+
+.nav-dot-active {
     background: var(--black);
-    color: var(--white);
-    border: none;
-    padding: 8px 16px;
-    font-size: 1em;
 }
 
-input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--black);
+.header-container {
+    padding: var(--space-md) var(--space-lg);
+    background: var(--white);
 }
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.time-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    font-family: var(--font-mono);
+    font-size: 24px;
+}
+
+.time-segment {
+    min-width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--black);
+    font-weight: bold;
+}
+
+.time-separator {
+    font-weight: bold;
+    animation: blink 2s infinite;
+}
+
+.header-border {
+    height: 4px;
+    margin-top: var(--space-md);
+    background: repeating-linear-gradient(
+            90deg,
+            var(--black),
+            var(--black) 8px,
+            var(--white) 8px,
+            var(--white) 16px
+    );
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* Button styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    font-family: var(--font-mono);
+    cursor: pointer;
+}
+
+.btn--small { padding: var(--space-xs) var(--space-sm); }
+.btn--medium { padding: var(--space-sm) var(--space-md); }
+.btn--large { padding: var(--space-md) var(--space-lg); }
+
+.btn--outline {
+    background: transparent;
+    border: 1px solid #000;
+}
+
+/* Grid system */
+.grid-container {
+    display: grid;
+    width: 100%;
+}
+
+.grid--cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid--cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+.gap--small { gap: var(--space-sm); }
+.gap--medium { gap: var(--space-md); }
+.gap--large { gap: var(--space-lg); }
+
+/* Card component */
+.card {
+    background: #fff;
+    width: 100%;
+}
+
+/* Responsive utilities */
+@media (max-width: 600px) {
+    .grid--cols-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid--cols-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Spacing utilities */
+.p--small { padding: var(--space-sm); }
+.p--medium { padding: var(--space-md); }
+.p--large { padding: var(--space-lg); }
+
+.m--small { margin: var(--space-sm); }
+.m--medium { margin: var(--space-md); }
+.m--large { margin: var(--space-lg); }

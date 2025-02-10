@@ -1,37 +1,237 @@
+/* todo.css */
+
+/* Container */
 .todo-list {
     max-width: 600px;
     margin: 0 auto;
     padding: 16px;
+    font-family: var(--font-mono);
 }
 
+/* Header */
 .todo-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
-    font-family: var(--font-mono);
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--black);
+}
+
+.todo-title {
+    font-size: 24px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
 
+/* Add button & Form buttons */
+.add-button,
+.cancel-button,
+.submit-button {
+    padding: 8px 16px;
+    font-family: var(--font-mono);
+    border: 1px solid var(--black);
+    background: var(--white);
+    cursor: pointer;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-button {
+    gap: 8px;
+}
+
+.submit-button {
+    background: var(--black);
+    color: var(--white);
+}
+
+.button-icon {
+    font-size: 18px;
+    line-height: 1;
+}
+
+/* Add Todo Form */
+.add-todo-form {
+    margin-bottom: 16px;
+    padding: 16px;
+    border: 2px solid var(--black);
+    border-style: dotted;
+}
+
+.todo-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    border: 1px solid var(--black);
+    background: var(--white);
+}
+
+.todo-input:focus {
+    outline: 2px solid var(--black);
+    outline-offset: -2px;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+/* Sections */
+.section {
+    margin: 24px 0;
+}
+
+.section-title {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+}
+
+/* Section divider with dithering */
+.section-divider {
+    height: 16px;
+    margin: 24px 0;
+    background-image:
+            linear-gradient(45deg, var(--black) 25%, transparent 25%),
+            linear-gradient(-45deg, var(--black) 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, var(--black) 75%),
+            linear-gradient(-45deg, transparent 75%, var(--black) 75%);
+    background-size: 8px 8px;
+    background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+}
+
+/* Todo items */
 .todo-items {
     display: flex;
     flex-direction: column;
 }
 
 .todo-item {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
     align-items: center;
     gap: 12px;
     padding: 12px 0;
-    border-bottom: 1px dotted var(--gray-4);
+    border-bottom: 1px dotted var(--black);
+}
+
+/* Numbering */
+.todo-number {
+    min-width: 24px;
     font-family: var(--font-mono);
+    font-weight: bold;
 }
 
-.todo-item input[type="checkbox"] {
-    margin-right: 8px;
+/* Custom checkbox */
+.checkbox-wrapper {
+    position: relative;
+    width: 24px;
+    height: 24px;
 }
 
-.todo-item span {
+.todo-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.checkbox-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    pointer-events: none;
+}
+
+/* Todo text */
+.todo-text {
     flex: 1;
+    font-size: 16px;
+    line-height: 1.4;
+    padding: 4px 0;
+}
+
+/* Actions */
+.todo-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.action-button {
+    font-family: var(--font-mono);
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px 8px;
+    line-height: 1;
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Edit form */
+.edit-form {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.edit-form .todo-input {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+/* Completed items */
+.todo-item--completed .todo-text {
+    text-decoration: line-through;
+    background-image: radial-gradient(var(--black) 1px, transparent 1px);
+    background-size: 8px 8px;
+}
+
+/* Empty state */
+.todo-items:empty::after {
+    content: 'No tasks';
+    display: block;
+    padding: 16px 0;
+    color: var(--gray-3);
+    font-style: italic;
+    text-align: center;
+}
+
+/* Touch friendly adjustments */
+@media (max-width: 600px) {
+    .todo-list {
+        padding: 8px;
+    }
+
+    .todo-item {
+        gap: 8px;
+    }
+
+    .action-button,
+    .submit-button,
+    .cancel-button {
+        min-width: 48px;
+        min-height: 48px;
+    }
 }

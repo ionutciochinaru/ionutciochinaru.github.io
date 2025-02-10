@@ -2,17 +2,27 @@ const { ref, onMounted } = Vue
 
 export const Header = {
     template: `
-        <header class="header">
-            <div>{{ time }}</div>
-            <div>100%</div>
-        </header>
+      <header class="header-container">
+        <div class="header-content">
+          <div class="time-display">
+            <div class="time-segment bg-gray-1">{{ hours }}</div>
+            <div class="time-separator">:</div>
+            <div class="time-segment bg-gray-2">{{ minutes }}</div>
+          </div>
+        </div>
+        <div class="header-border"></div>
+      </header>
     `,
 
     setup() {
-        const time = ref('')
+        const hours = ref('')
+        const minutes = ref('')
+        const seconds = ref('')
 
         const updateTime = () => {
-            time.value = new Date().toLocaleTimeString('en-US', { hour12: false })
+            const now = new Date()
+            hours.value = now.getHours().toString().padStart(2, '0')
+            minutes.value = now.getMinutes().toString().padStart(2, '0')
         }
 
         onMounted(() => {
@@ -21,7 +31,9 @@ export const Header = {
         })
 
         return {
-            time
+            hours,
+            minutes,
+            seconds
         }
     }
 }
