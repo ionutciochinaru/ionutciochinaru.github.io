@@ -3,83 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kindle Dashboard</title>
+    <title>Retro Kindle Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/VT323/1.3.2/vt323.css">
     <style>
+        :root {
+            --main-bg: #ffffff;
+            --main-text: #000000;
+            --border-color: #000000;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: white;
-            color: black;
+            font-family: 'VT323', monospace;
+            background: var(--main-bg);
+            color: var(--main-text);
+            padding: 10px;
+            font-size: 16px;
+            line-height: 1.2;
         }
-        .container {
+
+        .grid-container {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: auto auto;
+            gap: 10px;
+            max-width: 600px;
+            margin: 0 auto;
         }
+
         .widget {
-            border: 2px solid black;
-            padding: 15px;
-            margin-bottom: 20px;
+            border: 2px solid var(--border-color);
+            padding: 10px;
+            position: relative;
         }
-        .todo-item {
+
+        .widget-header {
             display: flex;
             align-items: center;
-            margin: 10px 0;
+            margin-bottom: 5px;
+            font-size: 1.2em;
         }
-        .todo-item input[type="checkbox"] {
-            margin-right: 10px;
-            transform: scale(1.5);
+
+        .ascii-icon {
+            margin-right: 5px;
+            font-size: 1.2em;
         }
-        .clock {
+
+        /* Clock Widget */
+        #clock {
             font-size: 2em;
             text-align: center;
         }
-        button {
-            background: black;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            margin: 5px;
-            font-size: 1em;
-        }
+
+        /* Weather Widget */
         #weather {
             text-align: center;
-            font-size: 1.2em;
+        }
+
+        .weather-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Todo Widget */
+        #todo-list {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .todo-input-group {
+            display: flex;
+            margin-bottom: 5px;
+        }
+
+        .todo-input-group input {
+            flex: 1;
+            font-family: 'VT323', monospace;
+            font-size: 1em;
+            padding: 2px 5px;
+            border: 1px solid var(--border-color);
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            margin: 2px 0;
+        }
+
+        /* Pomodoro Widget */
+        #pomodoro {
+            text-align: center;
+        }
+
+        #timer {
+            font-size: 1.8em;
+            margin: 5px 0;
+        }
+
+        button {
+            font-family: 'VT323', monospace;
+            background: var(--main-text);
+            color: var(--main-bg);
+            border: none;
+            padding: 3px 8px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        button:active {
+            background: var(--main-bg);
+            color: var(--main-text);
+            border: 1px solid var(--main-text);
+        }
+
+        /* ASCII art styling */
+        .ascii-art {
+            white-space: pre;
+            font-size: 0.8em;
+            line-height: 1;
         }
     </style>
 </head>
 <body>
-<div class="container">
+<div class="grid-container">
     <div class="widget">
-        <h2>Clock</h2>
-        <div id="clock" class="clock">00:00:00</div>
+        <div class="widget-header">
+            <span class="ascii-icon">[⌚]</span>
+            <span>TIME</span>
+        </div>
+        <div id="clock">00:00:00</div>
     </div>
 
     <div class="widget">
-        <h2>Pomodoro Timer</h2>
+        <div class="widget-header">
+            <span class="ascii-icon">[☀]</span>
+            <span>WEATHER</span>
+        </div>
+        <div id="weather">Loading...</div>
+    </div>
+
+    <div class="widget">
+        <div class="widget-header">
+            <span class="ascii-icon">[✓]</span>
+            <span>TASKS</span>
+        </div>
+        <div class="todo-input-group">
+            <input type="text" id="new-todo" placeholder="New task...">
+            <button onclick="addTodo()">+</button>
+        </div>
+        <div id="todo-list"></div>
+    </div>
+
+    <div class="widget">
+        <div class="widget-header">
+            <span class="ascii-icon">[⏱]</span>
+            <span>POMODORO</span>
+        </div>
         <div id="pomodoro">
             <div id="timer">25:00</div>
-            <button onclick="startPomodoro()">Start</button>
-            <button onclick="resetPomodoro()">Reset</button>
-        </div>
-    </div>
-
-    <div class="widget">
-        <h2>Todo List</h2>
-        <div id="todo-list">
-            <input type="text" id="new-todo" placeholder="Add new task">
-            <button onclick="addTodo()">Add</button>
-            <div id="todos"></div>
-        </div>
-    </div>
-
-    <div class="widget">
-        <h2>Weather</h2>
-        <div id="weather">
-            <!-- Weather will be populated by JavaScript -->
+            <button onclick="startPomodoro()">START</button>
+            <button onclick="resetPomodoro()">RESET</button>
         </div>
     </div>
 </div>
@@ -89,10 +179,76 @@
     function updateClock() {
         const now = new Date();
         document.getElementById('clock').textContent =
-            now.toLocaleTimeString();
+            now.toLocaleTimeString('en-US', { hour12: false });
     }
     setInterval(updateClock, 1000);
     updateClock();
+
+    // Weather using OpenWeatherMap API
+    async function getWeather() {
+        try {
+            // Replace with your API key
+            const API_KEY = 'YOUR_API_KEY';
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid=${API_KEY}`);
+            const data = await response.json();
+
+            const temp = Math.round(data.main.temp);
+            const description = data.weather[0].main;
+            const weatherArt = getWeatherAscii(description);
+
+            document.getElementById('weather').innerHTML = `
+                    <div class="weather-info">
+                        <div class="ascii-art">${weatherArt}</div>
+                        <div>${temp}°C<br>${description}</div>
+                    </div>
+                `;
+        } catch (error) {
+            document.getElementById('weather').textContent = 'Weather Unavailable';
+        }
+    }
+
+    function getWeatherAscii(condition) {
+        const art = {
+            Clear: ' ☀️ ',
+            Clouds: ' ☁️ ',
+            Rain: ' 🌧️ ',
+            Snow: ' ❄️ ',
+            default: ' ⚡ '
+        };
+        return art[condition] || art.default;
+    }
+
+    // Todo List
+    let todos = JSON.parse(localStorage.getItem('todos') || '[]');
+
+    function addTodo() {
+        const input = document.getElementById('new-todo');
+        const text = input.value.trim();
+        if (text) {
+            todos.unshift({ text, completed: false });
+            localStorage.setItem('todos', JSON.stringify(todos));
+            input.value = '';
+            renderTodos();
+        }
+    }
+
+    function toggleTodo(index) {
+        todos[index].completed = !todos[index].completed;
+        localStorage.setItem('todos', JSON.stringify(todos));
+        renderTodos();
+    }
+
+    function renderTodos() {
+        const todoList = document.getElementById('todo-list');
+        todoList.innerHTML = todos.map((todo, index) => `
+                <div class="todo-item">
+                    <input type="checkbox"
+                           ${todo.completed ? 'checked' : ''}
+                           onclick="toggleTodo(${index})">
+                    <span style="${todo.completed ? 'text-decoration: line-through' : ''}">${todo.text}</span>
+                </div>
+            `).join('');
+    }
 
     // Pomodoro
     let pomodoroTime = 25 * 60;
@@ -123,43 +279,11 @@
         document.getElementById('timer').textContent = '25:00';
     }
 
-    // Todo List
-    let todos = JSON.parse(localStorage.getItem('todos') || '[]');
-
-    function addTodo() {
-        const input = document.getElementById('new-todo');
-        const text = input.value.trim();
-        if (text) {
-            todos.push({ text, completed: false });
-            localStorage.setItem('todos', JSON.stringify(todos));
-            input.value = '';
-            renderTodos();
-        }
-    }
-
-    function toggleTodo(index) {
-        todos[index].completed = !todos[index].completed;
-        localStorage.setItem('todos', JSON.stringify(todos));
-        renderTodos();
-    }
-
-    function renderTodos() {
-        const todoList = document.getElementById('todos');
-        todoList.innerHTML = todos.map((todo, index) => `
-                <div class="todo-item">
-                    <input type="checkbox"
-                           ${todo.completed ? 'checked' : ''}
-                           onclick="toggleTodo(${index})">
-                    <span style="${todo.completed ? 'text-decoration: line-through' : ''}">${todo.text}</span>
-                </div>
-            `).join('');
-    }
-
-    // Initial render
+    // Initialize
     renderTodos();
-
-    // Weather (simplified version without API)
-    document.getElementById('weather').innerHTML = 'Check your local weather website for updates';
+    getWeather();
+    // Update weather every 30 minutes
+    setInterval(getWeather, 30 * 60 * 1000);
 </script>
 </body>
 </html>
