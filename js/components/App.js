@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+const { ref } = Vue
 import { Weather } from './Weather.js'
 import { TodoList } from './TodoList.js'
 import { Navigation } from './Navigation.js'

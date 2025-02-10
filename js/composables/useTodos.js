@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+const { ref } = Vue
 
 export function useTodos() {
     const todos = ref(JSON.parse(localStorage.getItem('todos') || '[]'))

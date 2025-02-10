@@ -1,4 +1,4 @@
-import { ref, onMounted } from 'vue'
+const { ref, onMounted } = Vue
 
 export const Header = {
     template: `

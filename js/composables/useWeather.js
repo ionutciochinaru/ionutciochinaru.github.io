@@ -1,4 +1,4 @@
-import { ref, onMounted } from 'vue'
+const { ref, onMounted } = Vue
 import { WEATHER_CONDITIONS } from '../constants/weather.js'
 
 export function useWeather() {

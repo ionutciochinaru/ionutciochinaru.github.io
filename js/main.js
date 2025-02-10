@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+const { createApp } = Vue
 import { App } from './components/App.js'
 
 const app = createApp(App)
