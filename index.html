@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kindle Dashboard</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            color: black;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .widget {
+            border: 2px solid black;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .todo-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .todo-item input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.5);
+        }
+        .clock {
+            font-size: 2em;
+            text-align: center;
+        }
+        button {
+            background: black;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 1em;
+        }
+        #weather {
+            text-align: center;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="widget">
+        <h2>Clock</h2>
+        <div id="clock" class="clock">00:00:00</div>
+    </div>
+
+    <div class="widget">
+        <h2>Pomodoro Timer</h2>
+        <div id="pomodoro">
+            <div id="timer">25:00</div>
+            <button onclick="startPomodoro()">Start</button>
+            <button onclick="resetPomodoro()">Reset</button>
+        </div>
+    </div>
+
+    <div class="widget">
+        <h2>Todo List</h2>
+        <div id="todo-list">
+            <input type="text" id="new-todo" placeholder="Add new task">
+            <button onclick="addTodo()">Add</button>
+            <div id="todos"></div>
+        </div>
+    </div>
+
+    <div class="widget">
+        <h2>Weather</h2>
+        <div id="weather">
+            <!-- Weather will be populated by JavaScript -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // Clock
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('clock').textContent =
+            now.toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Pomodoro
+    let pomodoroTime = 25 * 60;
+    let pomodoroInterval;
+
+    function startPomodoro() {
+        if (!pomodoroInterval) {
+            pomodoroInterval = setInterval(() => {
+                pomodoroTime--;
+                const minutes = Math.floor(pomodoroTime / 60);
+                const seconds = pomodoroTime % 60;
+                document.getElementById('timer').textContent =
+                    `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                if (pomodoroTime <= 0) {
+                    clearInterval(pomodoroInterval);
+                    alert('Pomodoro complete!');
+                    resetPomodoro();
+                }
+            }, 1000);
+        }
+    }
+
+    function resetPomodoro() {
+        clearInterval(pomodoroInterval);
+        pomodoroInterval = null;
+        pomodoroTime = 25 * 60;
+        document.getElementById('timer').textContent = '25:00';
+    }
+
+    // Todo List
+    let todos = JSON.parse(localStorage.getItem('todos') || '[]');
+
+    function addTodo() {
+        const input = document.getElementById('new-todo');
+        const text = input.value.trim();
+        if (text) {
+            todos.push({ text, completed: false });
+            localStorage.setItem('todos', JSON.stringify(todos));
+            input.value = '';
+            renderTodos();
+        }
+    }
+
+    function toggleTodo(index) {
+        todos[index].completed = !todos[index].completed;
+        localStorage.setItem('todos', JSON.stringify(todos));
+        renderTodos();
+    }
+
+    function renderTodos() {
+        const todoList = document.getElementById('todos');
+        todoList.innerHTML = todos.map((todo, index) => `
+                <div class="todo-item">
+                    <input type="checkbox"
+                           ${todo.completed ? 'checked' : ''}
+                           onclick="toggleTodo(${index})">
+                    <span style="${todo.completed ? 'text-decoration: line-through' : ''}">${todo.text}</span>
+                </div>
+            `).join('');
+    }
+
+    // Initial render
+    renderTodos();
+
+    // Weather (simplified version without API)
+    document.getElementById('weather').innerHTML = 'Check your local weather website for updates';
+</script>
+</body>
+</html>
