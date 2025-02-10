@@ -1,0 +1,87 @@
+.weather-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.current-weather {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dotted var(--black);
+}
+
+.weather-main {
+    font-size: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.weather-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+.weather-item {
+    border: 1px solid var(--black);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.forecast-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.forecast-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.forecast-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+}
+
+.forecast-day {
+    border: 1px solid var(--black);
+    padding: 0.5rem;
+    text-align: center;
+    min-width: 100px;
+}
+
+.forecast-date {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.forecast-temp {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+}
+
+.forecast-high {
+    font-weight: bold;
+}
+
+.forecast-low {
+    color: var(--gray);
+}
+
+.weather-icon {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+}
