@@ -32,15 +32,15 @@ export const Login = {
                     <button type="submit" class="login-button">Login</button>
                 </form>
 
-                <div class="divider">or</div>
+<!--                <div class="divider">or</div>-->
 
-                <button 
-                    @click="handleGoogleLogin" 
-                    class="google-button"
-                    :disabled="loading"
-                >
-                    Sign in with Google
-                </button>
+<!--                <button -->
+<!--                    @click="handleGoogleLogin" -->
+<!--                    class="google-button"-->
+<!--                    :disabled="loading"-->
+<!--                >-->
+<!--                    Sign in with Google-->
+<!--                </button>-->
             </div>
         </div>
     `,

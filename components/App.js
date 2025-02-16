@@ -22,8 +22,8 @@ export const App = {
         <template v-if="user">
           <Header />
           <main class="main-content">
-            <Weather v-if="currentPage === 0" />
-            <TodoList v-if="currentPage === 1" />
+            <TodoList v-if="currentPage === 0" />
+            <Weather v-if="currentPage === 1" />
             <div v-if="currentPage === 2" class="page">Stats Page</div>
           </main>
           <Navigation
