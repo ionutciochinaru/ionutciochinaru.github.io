@@ -5,6 +5,213 @@
     padding: var(--space-md);
 }
 
+/* Header & Add Button */
+.todo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 2px solid var(--black);
+}
+
+.todo-title {
+    font-size: 24px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+}
+
+.add-button {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    min-width: 48px;
+    min-height: 48px;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--black);
+    background: var(--white);
+    font-family: var(--font-mono);
+    cursor: pointer;
+}
+
+.button-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* Add Todo Form */
+.add-todo-form {
+    margin-bottom: var(--space-lg);
+    padding: var(--space-lg);
+    border: 2px dotted var(--black);
+}
+
+.todo-input {
+    width: 100%;
+    min-height: 48px;
+    padding: var(--space-sm);
+    margin-bottom: var(--space-md);
+    border: 1px solid var(--black);
+    font-family: var(--font-mono);
+    font-size: 16px;
+}
+
+.form-buttons {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: flex-end;
+}
+
+.cancel-button,
+.submit-button {
+    min-width: 48px;
+    min-height: 48px;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--black);
+    font-family: var(--font-mono);
+    cursor: pointer;
+}
+
+.submit-button {
+    background: var(--black);
+    color: var(--white);
+}
+
+.cancel-button {
+    background: var(--white);
+}
+
+/* Sections */
+.section {
+    margin: var(--space-xl) 0;
+}
+
+.section:first-child {
+    margin-top: 0;
+}
+
+.section-title {
+    font-size: 18px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--black);
+}
+
+/* Todo Items */
+.todo-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.todo-item {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    min-height: 48px;
+    border: 1px solid var(--black);
+    background: var(--white);
+}
+
+.todo-number {
+    font-family: var(--font-mono);
+    font-weight: bold;
+    min-width: 24px;
+}
+
+.todo-text {
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.todo-actions {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.action-button {
+    min-width: 48px;
+    min-height: 48px;
+    border: 1px solid var(--black);
+    background: var(--white);
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.status-button {
+    min-width: 48px;
+    min-height: 48px;
+    border: 1px solid var(--black);
+    background: var(--white);
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.status-button--complete {
+    background: var(--black);
+    color: var(--white);
+}
+
+.status-button--failed {
+    border-width: 2px;
+}
+
+/* Completed & Failed Items */
+.todo-item--completed,
+.todo-item--failed {
+    opacity: 0.7;
+}
+
+.todo-item--completed {
+    border-style: dotted;
+}
+
+.todo-item--completed .todo-text {
+    text-decoration: line-through;
+}
+
+.todo-item--failed {
+    border-width: 2px;
+}
+
+.todo-item--failed .todo-text {
+    text-decoration: line-through;
+    font-style: italic;
+}
+
+.todo-time {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--black);
+    opacity: 0.7;
+}
+
+/* Edit Form */
+.edit-form {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: var(--space-md);
+    padding: var(--space-sm);
+    background: var(--white);
+}
+
+.edit-form .todo-input {
+    margin-bottom: 0;
+}
+
+/* Empty State */
+.empty-state {
+    padding: var(--space-xl);
+    text-align: center;
+    border: 1px dotted var(--black);
+    font-family: var(--font-mono);
+    font-style: italic;
+}
+
 /* Calendar Strip */
 .calendar-strip {
     display: flex;
@@ -51,62 +258,6 @@
     cursor: pointer;
 }
 
-.day-name {
-    font-size: 12px;
-    margin-bottom: 4px;
-}
-
-.day-number {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.day-indicator {
-    width: 4px;
-    height: 4px;
-    background: var(--black);
-    border-radius: 50%;
-    margin: 4px auto 0;
-}
-
-/* Todo Items */
-.todo-item {
-    display: grid;
-    grid-template-columns: auto auto 1fr auto;
-    align-items: center;
-    gap: var(--space-sm);
-    padding: var(--space-sm) 0;
-    border-bottom: 1px dotted var(--black);
-    min-height: 48px;
-}
-
-.status-button {
-    min-width: 32px;
-    height: 32px;
-    border: 1px solid var(--black);
-    background: var(--white);
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.status-button--complete {
-    background: var(--black);
-    color: var(--white);
-}
-
-.status-button--failed {
-    border-width: 2px;
-}
-
-.todo-item--completed .todo-text {
-    text-decoration: line-through;
-}
-
-.todo-item--failed .todo-text {
-    text-decoration: line-through;
-    font-style: italic;
-}
-
 /* Assessment Section */
 .assessment-section {
     margin-top: var(--space-xl);
@@ -121,6 +272,7 @@
 .mood-label {
     margin-bottom: var(--space-md);
     font-weight: bold;
+    font-family: var(--font-mono);
 }
 
 .mood-buttons {
@@ -145,10 +297,12 @@
 .assessment-notes {
     width: 100%;
     min-height: 100px;
-    padding: var(--space-sm);
+    padding: var(--space-md);
     margin-bottom: var(--space-lg);
     border: 1px solid var(--black);
     font-family: var(--font-mono);
+    font-size: 16px;
+    resize: vertical;
 }
 
 .save-assessment-button {
@@ -156,7 +310,8 @@
     min-height: 48px;
     background: var(--black);
     color: var(--white);
-    border: none;
+    border: 1px solid var(--black);
+    font-family: var(--font-mono);
     cursor: pointer;
 }
 
