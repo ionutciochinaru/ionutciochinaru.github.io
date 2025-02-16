@@ -1,0 +1,81 @@
+/* login.css */
+.login-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md);
+}
+
+.login-box {
+    width: 100%;
+    max-width: 400px;
+    padding: var(--space-lg);
+    border: 1px solid var(--black);
+}
+
+.login-title {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.login-input {
+    width: 100%;
+    padding: var(--space-sm);
+    border: 1px solid var(--black);
+    min-height: 48px;
+}
+
+.login-button,
+.google-button {
+    width: 100%;
+    padding: var(--space-sm);
+    border: 1px solid var(--black);
+    background: var(--white);
+    cursor: pointer;
+    min-height: 48px;
+    font-family: var(--font-mono);
+}
+
+.login-button {
+    background: var(--black);
+    color: var(--white);
+}
+
+.divider {
+    text-align: center;
+    margin: var(--space-md) 0;
+    position: relative;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background: var(--black);
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+.error-message {
+    color: var(--black);
+    border: 1px solid var(--black);
+    padding: var(--space-sm);
+    text-align: center;
+}

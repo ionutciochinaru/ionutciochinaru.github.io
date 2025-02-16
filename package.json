@@ -1,0 +1,14 @@
+{
+  "name": "kindle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "firebaseConfig.js",
+  "scripts": {
+    "dev": "http-server . --cors -c-1 -a localhost -p 8080"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ionutciochinaru/ionutciochinaru.github.io.git"
+  },
+  "private": true
+}

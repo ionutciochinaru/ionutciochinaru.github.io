@@ -1,0 +1,1113 @@
+<!-- wp:html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Your Freestyle Career Platform</title>
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
+        body {
+            padding-top: 0!important;
+        }
+        /* Hero section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero h1 {
+            color: #0D1B62;
+            font-size: 100px;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+            font-weight: 300;
+            line-height: 100px;
+        }
+        .hero p {
+            position: relative;
+            z-index: 2;
+            font-size: 35px;
+            font-weight: 300;
+            line-height: 32px;
+            color: #0D1B62;
+        }
+        .hero-bg {
+            position: absolute;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .hero-bg.active {
+            opacity: 1;
+        }
+        /* Stats section */
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background-color: #0D1B62;
+            color: white;
+            padding: 2rem 5%;
+        }
+        .stat-item h2 {
+            text-align: left;
+            font-weight: 600;
+            font-size: 52px;
+            line-height: 60px;
+            margin-bottom: 0;
+        }
+        .stat-item p {
+            text-align: center;
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 28px;
+        }
+        /* Projects section */
+        .finding-projects {
+            padding: 4rem 5%;
+            background-color: #FFFFFF;
+        }
+        .project-steps {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .project-steps-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .project-steps-title h2 {
+            font-size: 48px;
+            color: #0D1B62;
+            line-height: 1.2;
+            margin: 0;
+        }
+        .highlight {
+            color: #0D1B62;
+            font-weight: 600;
+        }
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6rem;
+        }
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+        .step-image {
+            flex: 1;
+            max-width: 300px;
+        }
+        .phone-mockup {
+            width: 100%;
+            height: auto;
+            border-radius: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .step-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 32px;
+            padding: 20px;
+            flex-direction: column;
+        }
+        .step-content-inner {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            flex: 1;
+        }
+        .step-number {
+            color: #0D1B62;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .step-text {
+            flex: 1;
+        }
+        .step-text h3 {
+            color: #0D1B62;
+            font-size: 24px;
+            font-weight: 400;
+            margin: 0 0 8px 0;
+        }
+        .step-text p {
+            color: #0D1B62;
+            font-size: 16px;
+            font-weight: 400;
+            margin: 0;
+            line-height: 1.5;
+        }
+        .vertical-line {
+            width: 1px;
+            height: 192px;
+            background-color: #0D1B62;
+            display: flex;
+            margin: 0 auto;
+        }
+        /* Alternative SVG line if preferred */
+        .vertical-line-svg {
+            width: 2px;
+            height: 192px;
+        }
+        /* Testimonials section */
+        .testimonials {
+            background-color: #0D1B62;
+            padding: 20px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .testimonials h2 {
+            color: white;
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 24px;
+            font-weight: 400;
+            line-height: 1.2;
+        }
+        .testimonials h2 span {
+            font-weight: 700;
+        }
+        .testimonial-description {
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        .stacked-cards {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .slider {
+            position: relative;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+        .slider .item {
+            position: absolute;
+            left: 50%;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            width: 600px;
+            transform: translateX(-50%) scale(0.8);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+            pointer-events: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .slider .item.active {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+            z-index: 10;
+            pointer-events: auto;
+        }
+        .slider .item.prev {
+            transform: translateX(-85%) scale(0.8);
+            opacity: 0.4;
+            z-index: 5;
+        }
+        .slider .item.next {
+            transform: translateX(-15%) scale(0.8);
+            opacity: 0.4;
+            z-index: 5;
+        }
+        .testimonial-content {
+            text-align: center;
+        }
+        .testimonial-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .testimonial-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .testimonial-name {
+            color: #0D1B62;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 0 8px;
+            text-transform: uppercase;
+        }
+        .testimonial-role {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+        }
+        .testimonial-text {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 40px;
+            position: relative;
+            z-index: 20;
+            bottom: 100px!important;
+        }
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .indicator.active {
+            background-color: white;
+        }
+        /* Technologies section */
+        .technologies {
+            padding: 80px 20px;
+            text-align: center;
+            background: white;
+        }
+        .technologies h2 {
+            color: #0D1B62;
+            font-size: 48px;
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+        .technologies h3 {
+            color: #222;
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 48px;
+        }
+        .tech-grid {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .tech-column {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .tech-item {
+            color: #0D1B62;
+            font-size: 18px;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .tech-item:hover {
+            color: #2196f3;
+        }
+        /* CTA section */
+        .cta {
+            background-color: #e91e63;
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+        .cta h2{
+            font-weight: 700;
+            font-size: 55px;
+        }
+        .cta p{
+            font-weight: 400;
+            font-size: 30px;
+        }
+        /* Button styles */
+        .button {
+            background-color: #1a237e;
+            color: #FFFFFF!important;
+            width: 300px;
+            height: 55px;
+            border-radius: 40px;
+            text-decoration: none;
+            display: inline-flex;
+            margin-top: 1rem;
+            font-size: 25px;
+            font-weight: 400;
+            position: relative;
+            z-index: 2;
+            align-items: center;
+            justify-content: center;
+        }
+        .faq {
+            padding: 80px 20px;
+            background: #fff;
+        }
+        .faq-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px;
+            cursor: pointer;
+            background: white;
+        }
+        .faq-question h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 500;
+            color: #0D1B62;
+        }
+        .faq-toggle {
+            background: none;
+            border: none;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #0D1B62;
+            transition: transform 0.3s ease;
+        }
+        .faq-toggle.active {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+            padding: 0 24px;
+        }
+        .faq-answer.show {
+            max-height: 200px;
+            padding: 0 24px 24px 24px;
+        }
+        .faq-answer p {
+            margin: 0;
+            color: #4B5563;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        @media (max-width: 1200px) {
+            .hero h1 {
+                font-size: 80px;
+                line-height: 90px;
+            }
+            .hero p {
+                font-size: 28px;
+                line-height: 36px;
+            }
+            .project-steps-title h2 {
+                font-size: 42px;
+            }
+            .testimonials h2 {
+                font-size: 42px;
+            }
+            .technologies h2 {
+                font-size: 42px;
+            }
+            .technologies h3 {
+                font-size: 22px;
+            }
+            .step-content h3 {
+                font-size: 28px;
+            }
+            /* Keep original 1024px styles */
+            .tech-grid {
+                gap: 40px;
+            }
+        }
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 70px;
+                line-height: 80px;
+            }
+            .hero p {
+                font-size: 24px;
+                line-height: 32px;
+            }
+            .project-steps-title h2 {
+                font-size: 36px;
+            }
+            .testimonials h2 {
+                font-size: 36px;
+            }
+            .technologies h2 {
+                font-size: 36px;
+            }
+            .step-content h3 {
+                font-size: 24px;
+            }
+            .step-content p {
+                font-size: 16px;
+            }
+            .tech-item {
+                font-size: 16px;
+            }
+            .testimonial-text {
+                font-size: 15px;
+            }
+        }
+        /* Keep all original mobile styles and add new text-specific ones */
+        @media (max-width: 768px) {
+            /* Original mobile styles */
+            .faq {
+                padding: 40px 20px;
+            }
+            .faq-question h3 {
+                font-size: 16px;
+                padding-right: 16px;
+            }
+            .faq-answer p {
+                font-size: 14px;
+            }
+            .tech-grid {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+            .tech-column {
+                flex: 1 1 40%;
+                min-width: 120px;
+            }
+            .testimonials h2 {
+                font-size: 36px;
+            }
+            .stacked-cards ul {
+                max-width: 90%;
+            }
+            .slider .item {
+                width: 90%;
+                padding: 24px;
+            }
+            .step-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
+            .step-content {
+                text-align: center;
+            }
+            .step-image {
+                max-width: 250px;
+            }
+            /* New text-specific styles */
+            .hero h1 {
+                font-size: 56px;
+                line-height: 66px;
+                margin-bottom: 0.8rem;
+            }
+            .hero p {
+                font-size: 22px;
+                line-height: 30px;
+            }
+            .button {
+                font-size: 20px;
+                width: 250px;
+                height: 50px;
+            }
+            .stat-item h2 {
+                font-size: 42px;
+                line-height: 50px;
+            }
+            .stat-item p {
+                font-size: 16px;
+                line-height: 24px;
+            }
+            .project-steps-title h2 {
+                font-size: 32px;
+            }
+            .technologies h2 {
+                font-size: 32px;
+            }
+            .technologies h3 {
+                font-size: 20px;
+            }
+            .testimonial-name {
+                font-size: 18px;
+            }
+            .testimonial-role {
+                font-size: 14px;
+            }
+            .tech-item {
+                font-size: 15px;
+            }
+        }
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 42px;
+                line-height: 52px;
+            }
+            .hero p {
+                font-size: 18px;
+                line-height: 26px;
+            }
+            .button {
+                font-size: 18px;
+                width: 220px;
+                height: 45px;
+            }
+            .stat-item h2 {
+                font-size: 36px;
+                line-height: 44px;
+            }
+            .stat-item p {
+                font-size: 14px;
+                line-height: 20px;
+            }
+            .project-steps-title h2 {
+                font-size: 28px;
+            }
+            .step-content h3 {
+                font-size: 22px;
+            }
+            .step-content p {
+                font-size: 15px;
+            }
+            .testimonials h2 {
+                font-size: 28px;
+            }
+            .technologies h2 {
+                font-size: 28px;
+            }
+            .technologies h3 {
+                font-size: 18px;
+            }
+            .tech-item {
+                font-size: 14px;
+            }
+            .testimonial-text {
+                font-size: 14px;
+            }
+            .cta h2 {
+                font-size: 24px;
+            }
+            .cta p {
+                font-size: 15px;
+                line-height: 1.5;
+            }
+        }
+        /* Keep original small screen styles */
+        @media (max-width: 480px) {
+            .tech-column {
+                flex: 1 1 100%;
+            }
+            .tech-item {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<section class="hero">
+    <h1>Your Freestyle <br/> Career Platform</h1>
+    <p>Work on projects that excite you, on your own <br/> terms - faster, smarter, better</p>
+    <a href="#" class="button">Get Started →</a>
+    <img src="/wp-content/uploads/2025/02/snowboard.png" alt="Hero background 1" class="hero-bg active">
+    <img src="/wp-content/uploads/2025/02/motorbike.png" alt="Hero background 2" class="hero-bg">
+</section>
+<section class="stats">
+    <div class="stat-item">
+        <h2>+1000</h2>
+        <p>Users in Platform</p>
+    </div>
+    <div class="stat-item">
+        <h2>+150</h2>
+        <p>Users Registered in last 30 Days</p>
+    </div>
+    <div class="stat-item">
+        <h2>+35%</h2>
+        <p>More Users vs Last Week</p>
+    </div>
+</section>
+<section class="finding-projects">
+    <div class="project-steps">
+        <div class="project-steps-title">
+            <h2 style="font-weight: 400">Finding IT Projects</h2>
+            <h2 style="font-weight: 400">was Never <span class="highlight">Easier</span></h2>
+        </div>
+        <div class="steps-container">
+            <div class="step-item">
+                <div class="step-image">
+                    <img src="/wp-content/uploads/2025/02/Col-2.png" alt="Get Started Interface" class="phone-mockup">
+                </div>
+                <div class="step-content">
+                    <div class="step-content-inner">
+                        <div class="step-number">1</div>
+                        <div class="step-text">
+                            <h3>Get Started</h3>
+                            <p>Get Started with inctrl.ai — or log in instantly with LinkedIn, Google, or Meta</p>
+                        </div>
+                    </div>
+                    <div class="vertical-line"></div>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-image">
+                    <img src="/wp-content/uploads/2025/02/Col-1.png" alt="Build Profile Interface" class="phone-mockup">
+                </div>
+                <div class="step-content">
+                    <div class="step-content-inner">
+                        <div class="step-number">2</div>
+                        <div class="step-text">
+                            <h3>Build Your Profile</h3>
+                            <p>Share your priorities, experience, and preferences with us</p>
+                        </div>
+                    </div>
+                    <div class="vertical-line"></div>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-image">
+                    <img src="/wp-content/uploads/2025/02/Col.png" alt="Find Project Interface" class="phone-mockup">
+                </div>
+                <div class="step-content">
+                    <div class="step-content-inner">
+                        <div class="step-number">3</div>
+                        <div class="step-text">
+                            <h3>Find the Perfect Project for You</h3>
+                            <p>Let AI match your skills and preferences to the projects that fit you best</p>
+                        </div>
+                    </div>
+                    <div class="vertical-line"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="testimonials">
+    <h2>WHAT <span>IT</span> PEOPLE SAY ABOUT US</h2>
+    <p class="testimonial-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra nunc ante velit vitae.</p>
+    <div class="stacked-cards">
+        <ul class="slider">
+            <li class="item">
+                <div class="testimonial-content">
+                    <div class="testimonial-image">
+                        <img src="/api/placeholder/80/80" alt="Ann Lubin">
+                    </div>
+                    <h3 class="testimonial-name">ANN LUBIN</h3>
+                    <p class="testimonial-role">CO-FOUNDER</p>
+                    <p class="testimonial-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra nunc ante velit vitae.</p>
+                </div>
+            </li>
+            <li class="item">
+                <div class="testimonial-content">
+                    <div class="testimonial-image">
+                        <img src="/api/placeholder/80/80" alt="John Doe">
+                    </div>
+                    <h3 class="testimonial-name">JOHN DOE</h3>
+                    <p class="testimonial-role">SENIOR DEVELOPER</p>
+                    <p class="testimonial-text">Faucibus amet etiam tincidunt rhoncus, ullamcorper velit.</p>
+                </div>
+            </li>
+            <li class="item">
+                <div class="testimonial-content">
+                    <div class="testimonial-image">
+                        <img src="/api/placeholder/80/80" alt="Jane Smith">
+                    </div>
+                    <h3 class="testimonial-name">JANE SMITH</h3>
+                    <p class="testimonial-role">PROJECT MANAGER</p>
+                    <p class="testimonial-text">Est tellus vitae, nullam lobortis enim. Faucibus amet etiam.</p>
+                </div>
+            </li>
+        </ul>
+        <div class="carousel-indicators">
+            <div class="indicator"></div>
+            <div class="indicator"></div>
+            <div class="indicator"></div>
+        </div>
+    </div>
+</section>
+<!-- wp:columns -->
+<div class="wp-block-columns">
+
+    <!-- wp:column -->
+    <div class="wp-block-column">
+
+        <!-- wp:heading {"textAlign":"center","className":"d-none"} -->
+        <h2 class="has-text-align-center d-none">Frequently Asked Questions</h2>
+        <!-- /wp:heading -->
+
+        <!-- wp:html -->
+        <script>
+            // The h2 for this section has d-none
+        </script>
+        <style>
+            .faq-container {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem;
+            }
+            details {
+                overflow: hidden;
+                margin-top: 14px;
+                border-radius: 18px;
+                width: 80%;
+                box-shadow: 0px 5px 16px 3px rgba(8, 15, 52, 0.06);
+            }
+            details[open] {
+                border: 1px solid #0d1b62;
+            }
+            details summary {
+                padding: 35px 52px;
+            }
+            details summary {
+                display: block;
+                cursor: pointer;
+                position: relative;
+            }
+            details[open] summary {
+                padding-bottom: 20px;
+            }
+            details main {
+                padding: 0 52px;
+            }
+            details h3 {
+                margin: 0;
+                display: flex;
+                font-family: 'Quicksand';
+                font-weight:600;
+                font-size:22px;
+            }
+            details h3 .arrow {
+                margin-left: auto;
+            }
+            .arrow {
+                width: 40px;
+                height: 40px;
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+            .arrow {
+                background-image: url('data:image/svg+xml,%3Csvg%20width%3D%2251%22%20height%3D%2252%22%20viewBox%3D%220%200%2051%2052%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Ccircle%20cx%3D%2225.487%22%20cy%3D%2225.926%22%20r%3D%2225.331%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22m22.377%2034.182%208.22-8.256-8.22-8.257%22%20stroke%3D%22%230D1B62%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E');
+                display: inline-block;
+                width: 40px;
+                height: 40px;
+                border-radius: 50px;
+            }
+            details:not([open]) .arrow {
+                box-shadow: 0px 5px 16px 1px rgba(8, 15, 52, 0.06)
+            }
+            details[open] .arrow {
+                background-image: url('data:image/svg+xml,%3Csvg%20width%3D%2251%22%20height%3D%2252%22%20viewBox%3D%220%200%2051%2052%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Ccircle%20cx%3D%2225.487%22%20cy%3D%2225.994%22%20r%3D%2225.331%22%20fill%3D%22%230D1B62%22%2F%3E%3Cpath%20d%3D%22m17.23%2022.884%208.257%208.22%208.257-8.22%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E');
+            }
+            details h3 {
+                position: relative;
+            }
+            details h3 .arrow {
+                position: absolute;
+                right: -6px;
+            }
+            @media screen and (max-width: 600px) {
+                .faq-container,
+                details {
+                    width: 100%;
+                }
+                details summary {
+                    padding: 20px;
+                }
+                details main {
+                    padding: 0 20px;
+                }
+                details h3 {
+                    font-size: 1.2rem;
+                    position: relative;
+                }
+                details h3 .arrow {
+                    width: 25px;
+                    height: 25px;
+                }
+            }
+        </style>
+        <div class="faq-container">
+            <details open="">
+                <summary>
+                    <h3>
+                        What does “Promoted jobs in search” mean?<span class="arrow"></span>
+                    </h3>
+                </summary>
+                <main>
+                    <p>
+                        This means your job posts can be seen first on a consultant’s job feed
+                        or in job search results.
+                    </p>
+                </main>
+            </details>
+            <details>
+                <summary>
+                    <h3>Can I switch between plans?<span class="arrow"></span></h3>
+                </summary>
+                <main>
+                    <p>
+                        Yes, you can switch between plans at any time. Choose a plan from the
+                        Subscription section in your account side menu.
+                    </p>
+                </main>
+            </details>
+            <details>
+                <summary>
+                    <h3>
+                        What happens if I cancel my subscription?<span class="arrow"></span>
+                    </h3>
+                </summary>
+                <main>
+                    <p>
+                        You can cancel any monthly paid plan (Silver, Gold, Platinum) by
+                        selecting the Standard plan. This will take effect once your latest
+                        monthly paid subscription expires. You can upgrade to another plan at
+                        any time.
+                    </p>
+                </main>
+            </details>
+            <details>
+                <summary>
+                    <h3>What support options are available?<span class="arrow"></span></h3>
+                </summary>
+                <main>
+                    <p>
+                        Open a live conversation with inctrl support directly in Chat, or write
+                        us an email at <a href="mailto:office@inctrl.ai"> office@inctrl.ai </a>.
+                    </p>
+                </main>
+            </details>
+        </div>
+        <!-- /wp:html -->
+    </div>
+    <!-- /wp:column -->
+</div>
+<section class="technologies">
+    <h2>Browse Projects Based on<br>Your Experience</h2>
+    <h3>Top Technologies</h3>
+    <div class="tech-grid">
+        <div class="tech-column">
+            <div class="tech-item">.NET</div>
+            <div class="tech-item">App</div>
+            <div class="tech-item">Django</div>
+            <div class="tech-item">Golang</div>
+            <div class="tech-item">Laravel</div>
+            <div class="tech-item">Programmers</div>
+            <div class="tech-item">Ruby on Rails</div>
+            <div class="tech-item">VueJS</div>
+        </div>
+        <div class="tech-column">
+            <div class="tech-item">Android</div>
+            <div class="tech-item">ASP.NET</div>
+            <div class="tech-item">ExpressJS</div>
+            <div class="tech-item">iOS</div>
+            <div class="tech-item">Mobile</div>
+            <div class="tech-item">Python</div>
+            <div class="tech-item">Software</div>
+            <div class="tech-item">Web</div>
+        </div>
+        <div class="tech-column">
+            <div class="tech-item">Angular</div>
+            <div class="tech-item">Azure</div>
+            <div class="tech-item">Frontend</div>
+            <div class="tech-item">Java</div>
+            <div class="tech-item">NodeJS</div>
+            <div class="tech-item">React Native</div>
+            <div class="tech-item">Spring</div>
+        </div>
+        <div class="tech-column">
+            <div class="tech-item">API</div>
+            <div class="tech-item">Backend</div>
+            <div class="tech-item">Fullstack</div>
+            <div class="tech-item">JavaScript</div>
+            <div class="tech-item">PHP</div>
+            <div class="tech-item">ReactJS</div>
+            <div class="tech-item">Swift</div>
+        </div>
+    </div>
+</section>
+<section class="cta">
+    <h2>Are you a company looking for talent?</h2>
+    <div>
+        <p>Your time is precious. Forget countless hours posting job ads with poor responses or <br> hoping that recruitment agencies or outsourcing companies will do the work.</p>
+        <p>Tell InCtrl's AI engine about your needs, and we will match you with available quality <br> talent in real-time.</p>
+    </div>
+
+</section>
+<!-- wp:group {"className":"hill d-flex align-items-center","layout":{"type":"constrained"}} -->
+<div class="wp-block-group hill d-flex align-items-center pt-3">
+
+    <!-- wp:group {"className":"container d-flex align-items-center w-75","layout":{"type":"constrained"}} -->
+    <div class="wp-block-group container d-flex align-items-center w-75">
+
+        <!-- wp:columns {"className":"mb-0"} -->
+        <div class="wp-block-columns mb-0">
+
+            <!-- wp:column {"className":"w-flex-50"} -->
+            <div class="wp-block-column w-flex-50">
+
+                <!-- wp:heading {"level":3} -->
+                <h3>Security is our top priority</h3>
+                <!-- /wp:heading -->
+
+                <!-- wp:paragraph -->
+                <p>We have contracts in place to protect all parties, and we hold 10% of the monthly payments in an escrow account which we release to the consultant once the job is fulfilled. This is a secure method of encouraging consultants to complete the project for the entire duration, so your project needs are met.</p>
+                <!-- /wp:paragraph -->
+            </div>
+            <!-- /wp:column -->
+        </div>
+        <!-- /wp:columns -->
+    </div>
+    <!-- /wp:group -->
+</div>
+<!-- /wp:group -->
+<!-- wp:image {"id":129,"sizeSlug":"large","linkDestination":"none","className":"d-block d-md-none"} -->
+<figure class="wp-block-image size-large d-block d-md-none"><img src="https://inctrl.ai/wp-content/uploads/2022/11/hill-1024x611.png" alt="" class="wp-image-129"/></figure>
+<!-- /wp:image -->
+<script>
+    // Image transition functionality
+    function setupImageTransition() {
+        const images = document.querySelectorAll('.hero-bg');
+        let currentIndex = 0;
+        function transitionToNextImage() {
+            images[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].classList.add('active');
+        }
+        setInterval(transitionToNextImage, 3500);
+    }
+    // Testimonial carousel functionality
+    class StackedCards {
+        constructor() {
+            this.cards = document.querySelectorAll('.slider .item');
+            this.indicators = document.querySelectorAll('.indicator');
+            this.currentIndex = 0;
+            this.totalCards = this.cards.length;
+            this.interval = null;
+            this.isTransitioning = false;
+            // Setup indicators click events
+            this.indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    if (!this.isTransitioning) {
+                        this.goToCard(index);
+                    }
+                });
+            });
+        }
+        init() {
+            // Set initial state
+            this.updateCards();
+            this.startAutoPlay();
+        }
+        updateCards() {
+            this.cards.forEach((card, index) => {
+                card.classList.remove('active', 'prev', 'next');
+                if (index === this.currentIndex) {
+                    card.classList.add('active');
+                } else if (index === this.getPrevIndex()) {
+                    card.classList.add('prev');
+                } else if (index === this.getNextIndex()) {
+                    card.classList.add('next');
+                }
+            });
+            // Update indicators
+            this.indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === this.currentIndex);
+            });
+        }
+        getPrevIndex() {
+            return (this.currentIndex - 1 + this.totalCards) % this.totalCards;
+        }
+        getNextIndex() {
+            return (this.currentIndex + 1) % this.totalCards;
+        }
+        goToCard(index) {
+            if (this.currentIndex !== index) {
+                this.isTransitioning = true;
+                this.currentIndex = index;
+                this.updateCards();
+                setTimeout(() => {
+                    this.isTransitioning = false;
+                }, 500); // Match the CSS transition duration
+            }
+        }
+        nextCard() {
+            if (!this.isTransitioning) {
+                this.goToCard(this.getNextIndex());
+            }
+        }
+        startAutoPlay() {
+            this.interval = setInterval(() => this.nextCard(), 5000);
+        }
+        stopAutoPlay() {
+            if (this.interval) {
+                clearInterval(this.interval);
+            }
+        }
+    }
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        const stackedCards = new StackedCards();
+        stackedCards.init();
+        setupImageTransition(); // Initialize the hero image transition
+    });
+    // FAQ functionality
+    document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            const toggle = question.querySelector('.faq-toggle');
+            const isOpen = answer.classList.contains('show');
+            // Close all other answers
+            document.querySelectorAll('.faq-answer').forEach(item => {
+                item.classList.remove('show');
+            });
+            document.querySelectorAll('.faq-toggle').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // Toggle current answer
+            if (!isOpen) {
+                answer.classList.add('show');
+                toggle.classList.add('active');
+            }
+        });
+    });
+</script>
+</body>
+</html>
+<!-- /wp:columns -->
+<!-- /wp:html -->

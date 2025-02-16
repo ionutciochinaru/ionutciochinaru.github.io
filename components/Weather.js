@@ -1,4 +1,4 @@
-import { useWeather } from '../composables/useWeather.js'
+import {useWeather} from "../composables/useWeather.js";
 
 export const Weather = {
     template: `
