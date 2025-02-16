@@ -10,20 +10,45 @@ export function useWeather() {
             feelsLike: 0,
             uv: 0
         },
-        forecast: []
+        forecast: [],
+        lastUpdated: null
     })
+
+    const CACHE_KEY = 'weather_data'
+    const CACHE_DURATION = 2 * 60 * 60 * 1000 // 2 hours in milliseconds
+    const POLL_INTERVAL = 60 * 60 * 1000 // 1 hour in milliseconds
+
+    const loadFromCache = () => {
+        const cached = localStorage.getItem(CACHE_KEY)
+        if (cached) {
+            const parsedCache = JSON.parse(cached)
+            const now = new Date().getTime()
+
+            // Check if cache is still valid
+            if (parsedCache.lastUpdated && (now - parsedCache.lastUpdated) < CACHE_DURATION) {
+                weather.value = parsedCache
+                return true
+            }
+        }
+        return false
+    }
+
+    const saveToCache = () => {
+        weather.value.lastUpdated = new Date().getTime()
+        localStorage.setItem(CACHE_KEY, JSON.stringify(weather.value))
+    }
 
     const getWeatherIcon = (condition) => {
         const icons = {
-            'Clear': '●',               // Solid circle for sun
-            'Partly cloudy': '◐',       // Half circle for partial clouds
-            'Cloudy': '○',              // Empty circle for full cloud cover
-            'Rain': '☂',                // Umbrella for rain
-            'Snow': '❆',                // Snowflake for snow
-            'Thunderstorm': '⚡',        // Lightning bolt for thunderstorm
-            'Mist': '≋',                // Waves for mist/fog
-            'Wind': '⇶',                // Wind direction arrow
-            'Humidity': '∿'             // Wave for humidity
+            'Clear': '●',
+            'Partly cloudy': '◐',
+            'Cloudy': '○',
+            'Rain': '☂',
+            'Snow': '❆',
+            'Thunderstorm': '⚡',
+            'Mist': '≋',
+            'Wind': '⇶',
+            'Humidity': '∿'
         }
         return icons[condition] || '●'
     }
@@ -49,7 +74,7 @@ export function useWeather() {
                 "&current=temperature_2m,relative_humidity_2m,wind_speed_10m,apparent_temperature" +
                 "&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code" +
                 "&timezone=auto" +
-                "&forecast_days=10"
+                "&forecast_days=5" // Reduced from 10 to 5 days to save data
             )
             const data = await response.json()
 
@@ -58,8 +83,7 @@ export function useWeather() {
                 windSpeed: Math.round(data.current.wind_speed_10m),
                 humidity: Math.round(data.current.relative_humidity_2m),
                 feelsLike: Math.round(data.current.apparent_temperature),
-                condition: getWeatherCondition(data.daily.weather_code[0]),
-                uv: 0
+                condition: getWeatherCondition(data.daily.weather_code[0])
             }
 
             weather.value.forecast = data.daily.time.map((date, index) => ({
@@ -69,14 +93,24 @@ export function useWeather() {
                 precipitation: data.daily.precipitation_probability_max[index],
                 condition: getWeatherCondition(data.daily.weather_code[index])
             }))
+
+            saveToCache()
         } catch (error) {
             console.error('Error fetching weather:', error)
+            // On error, try to load from cache regardless of cache age
+            loadFromCache()
         }
     }
 
     onMounted(() => {
-        fetchWeather()
-        setInterval(fetchWeather, 30 * 60 * 1000)
+        // First try to load from cache
+        if (!loadFromCache()) {
+            // If no valid cache exists, fetch fresh data
+            fetchWeather()
+        }
+
+        // Set up polling interval
+        setInterval(fetchWeather, POLL_INTERVAL)
     })
 
     return {
