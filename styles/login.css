@@ -79,3 +79,32 @@
     padding: var(--space-sm);
     text-align: center;
 }
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logout-button {
+    min-width: 48px;
+    min-height: 48px;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--black);
+    background: var(--white);
+    font-family: var(--font-mono);
+    cursor: pointer;
+}
+
+.logout-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Optimize for e-ink display */
+.logout-button:active {
+    background: var(--black);
+    color: var(--white);
+}
