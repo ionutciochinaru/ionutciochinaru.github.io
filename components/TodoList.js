@@ -1,4 +1,5 @@
 // components/TodoList.js
+const { ref, computed, onMounted } = Vue;
 import { useTodos } from '../composables/useTodos.js';
 
 export const TodoList = {
