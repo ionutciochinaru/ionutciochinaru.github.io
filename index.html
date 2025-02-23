@@ -3,19 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kindle Dashboard</title>
+    <meta name="kindle-rendering-mode" content="static">
+    <title>Kindle Task Manager</title>
 
-    <!-- Load Vue -->
+    <!-- Base Vue -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.min.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js" type="module"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js" type="module"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js" type="module"></script>
 
     <!-- Styles -->
     <link rel="stylesheet" href="./styles/main.css">
-    <link rel="stylesheet" href="./styles/weather.css">
     <link rel="stylesheet" href="./styles/todo.css">
+    <link rel="stylesheet" href="./styles/weather.css">
     <link rel="stylesheet" href="./styles/login.css">
+    <link rel="stylesheet" href="./styles/achievements.css">
+    <link rel="stylesheet" href="./styles/loading.css">
+
+    <!-- Font - Using system monospace as fallback -->
+    <style>
+        @font-face {
+            font-family: 'Courier Prime';
+            src: local('Courier New');
+            font-display: swap;
+        }
+    </style>
 </head>
 <body>
 <div id="app"></div>
+
+<!-- Offline support -->
+<script>
+    // Register service worker for offline capabilities
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+            .then(registration => console.log('ServiceWorker registered'))
+            .catch(error => console.log('ServiceWorker error:', error));
+    }
+</script>
+
+<!-- Main app -->
 <script type="module" src="./main.js"></script>
 </body>
 </html>

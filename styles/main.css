@@ -1,86 +1,123 @@
-/* Optimized main.css */
 :root {
-    /* Simplified color palette */
-    --black: #000;
-    --white: #fff;
+    /* Colors */
+    --black: #000000;
+    --gray-1: #111111;
+    --gray-2: #333333;
+    --gray-3: #666666;
+    --gray-4: #888888;
+    --white: #ffffff;
 
-    /* Reduced spacing scale */
+    /* Spacing scale */
+    --space-xs: 4px;
     --space-sm: 8px;
     --space-md: 16px;
     --space-lg: 24px;
+    --space-xl: 32px;
 
-    /* Single font family */
+    /* Typography */
     --font-mono: 'Courier Prime', monospace;
+    --font-system: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* Reset */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    -webkit-font-smoothing: none;
+    font-smooth: never;
 }
 
 body {
-    font-family: var(--font-mono);
+    font-family: var(--font-system);
     background: var(--white);
     color: var(--black);
-    padding-bottom: 64px;
+    min-height: 100vh;
+    padding-bottom: calc(48px + var(--space-md) * 2);
 }
 
-/* Simplified border utilities */
-.border-bottom { border-bottom: 1px solid var(--black); }
-.border-dotted { border-bottom: 1px dotted var(--black); }
+/* Border utilities */
+.border--h-1 { border-bottom: 1px dotted #000; }
+.border--h-2 { border-bottom: 2px solid #000; }
+.border--v-1 { border-right: 1px dotted #000; }
+.border--v-2 { border-right: 2px solid #000; }
 
-/* Button */
-.btn {
-    padding: var(--space-sm) var(--space-md);
-    min-width: 44px;
-    min-height: 44px;
-    border: 1px solid var(--black);
-    background: var(--white);
-    font-family: var(--font-mono);
-    cursor: pointer;
+/* List styles */
+.list-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-xs) 0;
+}
+
+.list--bordered .list-item {
+    border-bottom: 1px dotted #000;
+}
+
+.list-marker {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
-/* Navigation */
 .nav-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--space-lg);
     padding: var(--space-sm);
     background: var(--white);
+}
+
+.nav-sticky {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     border-top: 1px solid var(--black);
+}
+
+.nav-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--black);
+    font-size: 18px;
 }
 
 .nav-dots {
     display: flex;
     gap: var(--space-md);
+    align-items: center;
 }
 
 .nav-dot {
     width: 12px;
     height: 12px;
-    border: 1px solid var(--black);
     border-radius: 50%;
     cursor: pointer;
+    border: 1px solid var(--black);
+    background: var(--white);
 }
 
 .nav-dot-active {
     background: var(--black);
 }
 
-/* Header */
 .header-container {
-    padding: var(--space-md);
-    border-bottom: 2px solid var(--black);
+    padding: var(--space-md) var(--space-lg);
+    background: var(--white);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .time-display {
@@ -88,6 +125,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: var(--space-sm);
+    font-family: var(--font-mono);
     font-size: 24px;
 }
 
@@ -98,59 +136,116 @@ body {
     align-items: center;
     justify-content: center;
     border: 1px solid var(--black);
+    font-weight: bold;
 }
 
-/* Forms */
-.input {
-    width: 100%;
-    padding: var(--space-sm);
-    border: 1px solid var(--black);
+.time-separator {
+    font-weight: bold;
+    animation: blink 2s infinite;
+}
+
+.header-border {
+    height: 4px;
+    margin-top: var(--space-md);
+    background: repeating-linear-gradient(
+            90deg,
+            var(--black),
+            var(--black) 8px,
+            var(--white) 8px,
+            var(--white) 16px
+    );
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* Button styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
     font-family: var(--font-mono);
+    cursor: pointer;
 }
 
-/* Todo specific styles */
-.todo-list {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: var(--space-md);
+.btn--small { padding: var(--space-xs) var(--space-sm); }
+.btn--medium { padding: var(--space-sm) var(--space-md); }
+.btn--large { padding: var(--space-md) var(--space-lg); }
+
+.btn--outline {
+    background: transparent;
+    border: 1px solid #000;
 }
 
-.todo-item {
+/* Grid system */
+.grid-container {
     display: grid;
-    grid-template-columns: auto auto 1fr auto;
-    gap: var(--space-sm);
-    padding: var(--space-sm) 0;
-    border-bottom: 1px dotted var(--black);
+    width: 100%;
 }
 
-.todo-checkbox {
-    width: 24px;
-    height: 24px;
+.grid--cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid--cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+.gap--small { gap: var(--space-sm); }
+.gap--medium { gap: var(--space-md); }
+.gap--large { gap: var(--space-lg); }
+
+/* Card component */
+.card {
+    background: #fff;
+    width: 100%;
 }
 
-/* Weather specific styles */
-.weather-page {
-    padding: var(--space-md);
-}
-
-.temperature-display {
-    font-size: 72px;
+/* Offline indicator */
+.offline-indicator {
+    position: fixed;
+    bottom: 70px; /* Above navigation */
+    left: 0;
+    right: 0;
     text-align: center;
-    margin: var(--space-md) 0;
+    padding: var(--space-sm);
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-mono);
+    font-size: 14px;
 }
 
-.forecast-row {
-    display: grid;
-    grid-template-columns: 80px 1fr 100px;
-    padding: var(--space-sm) 0;
-    border-bottom: 1px dotted var(--black);
+/* E-ink optimized focus states */
+:focus {
+    outline: 2px solid var(--black);
+    outline-offset: -2px;
 }
 
-/* Touch-friendly sizes */
+/* Loading overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+
+/* Responsive utilities */
 @media (max-width: 600px) {
-    .btn,
-    .input,
-    .time-segment {
-        min-height: 48px;
-    }
+    .grid--cols-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid--cols-3 { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* Spacing utilities */
+.p--small { padding: var(--space-sm); }
+.p--medium { padding: var(--space-md); }
+.p--large { padding: var(--space-lg); }
+
+.m--small { margin: var(--space-sm); }
+.m--medium { margin: var(--space-md); }
+.m--large { margin: var(--space-lg); }

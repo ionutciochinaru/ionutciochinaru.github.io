@@ -1,47 +1,57 @@
 // components/TodoList.js
-const { ref, computed, onMounted } = Vue;
-import { useTodos } from '../composables/useTodos.js';
+const {ref, computed, onMounted} = Vue;
+import {useTodos} from '../composables/useTodos.js';
+import {TodoItem} from './TodoItem.js';
+import {Loading} from './Loading.js';
+import {auth} from '../firebaseConfig.js';  // Add this import
+import {collection, getDocs} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+import {db} from '../firebaseConfig.js';
 
 export const TodoList = {
+    components: {
+        TodoItem,
+        Loading
+    },
+
     template: `
       <div class="todo-container">
-        <!-- Calendar Strip -->
-        <div class="calendar-strip">
-          <button
-              class="calendar-nav"
-              @click="previousDay"
-          >←</button>
-          <div class="calendar-days">
-            <div
-                v-for="date in calendarDays"
-                :key="date.date"
-                class="calendar-day"
-                :class="{
-                'calendar-day--selected': isSelectedDay(date.date),
-                'calendar-day--today': isToday(date.date)
-              }"
-                @click="selectDay(date.date)"
-            >
-              <div class="day-name">{{ formatDay(date.date) }}</div>
-              <div class="day-number">{{ formatDate(date.date) }}</div>
-              <div
-                  v-if="date.hasTodos"
-                  class="day-indicator"
-              ></div>
-            </div>
-          </div>
-          <button
-              class="calendar-nav"
-              @click="nextDay"
-          >→</button>
-        </div>
+        <Loading v-if="isLoading"/>
 
-        <!-- Todo List -->
-        <div class="todo-list">
+        <div v-else>
+          <!-- Calendar Strip -->
+          <div class="calendar-strip">
+            <button
+                class="calendar-nav"
+                @click="previousDay"
+            >←
+            </button>
+            <div class="calendar-days">
+              <div
+                  v-for="date in calendarDays"
+                  :key="date.date"
+                  class="calendar-day"
+                  :class="{
+                                'calendar-day--selected': isSelectedDay(date.date),
+                                'calendar-day--today': isToday(date.date),
+                            }"
+                  @click="selectDay(date.date)"
+              >
+                <div class="day-name">{{ formatDay(date.date) }}</div>
+                <div class="day-number">{{ formatDate(date.date) }}</div>
+              </div>
+            </div>
+            <button
+                class="calendar-nav"
+                @click="nextDay"
+            >→
+            </button>
+          </div>
+
+          <!-- Todo List -->
           <div class="todo-header">
             <h2 class="todo-title">Tasks for {{ formatSelectedDate }}</h2>
             <button
-                v-if="!isAddingTodo"
+                v-if="!isAddingTodo && !isReadOnly"
                 @click="isAddingTodo = true"
                 class="add-button"
             >
@@ -52,7 +62,7 @@ export const TodoList = {
 
           <!-- Add Todo Form -->
           <form
-              v-if="isAddingTodo"
+              v-if="isAddingTodo && !isReadOnly"
               class="add-todo-form"
               @submit.prevent="handleSubmit"
           >
@@ -63,6 +73,20 @@ export const TodoList = {
                 class="todo-input"
                 ref="todoInput"
             >
+            <div class="energy-level">
+              <label>Energy Level Required:</label>
+              <div class="energy-buttons">
+                <button
+                    v-for="level in energyLevels"
+                    :key="level.value"
+                    type="button"
+                    :class="['energy-button', { 'energy-button--selected': selectedEnergy === level.value }]"
+                    @click="selectedEnergy = level.value"
+                >
+                  {{ level.icon }}
+                </button>
+              </div>
+            </div>
             <div class="form-buttons">
               <button
                   type="button"
@@ -74,6 +98,7 @@ export const TodoList = {
               <button
                   type="submit"
                   class="submit-button"
+                  :disabled="!newTodoText.trim() || !selectedEnergy"
               >
                 Add
               </button>
@@ -83,101 +108,48 @@ export const TodoList = {
           <!-- Active Todos -->
           <div class="section">
             <h3 class="section-title">To Do</h3>
-            <div class="todo-items">
-              <div v-for="(todo, index) in incompleteTodos"
-                   :key="todo.id"
-                   class="todo-item">
-                <!-- Normal View -->
-                <template v-if="editingId !== todo.id">
-                  <div class="todo-number">{{ index + 1 }}.</div>
-                  <div class="todo-actions">
-                    <button
-                        class="status-button"
-                        :class="{'status-button--complete': todo.completed}"
-                        @click="toggleTodoStatus(todo.id, 'completed')"
-                    >
-                      ✓
-                    </button>
-                    <button
-                        class="status-button"
-                        :class="{'status-button--failed': todo.failed}"
-                        @click="toggleTodoStatus(todo.id, 'failed')"
-                    >
-                      ✗
-                    </button>
-                  </div>
-                  <span class="todo-text">{{ todo.text }}</span>
-                  <div class="todo-actions">
-                    <button
-                        @click="startEdit(todo)"
-                        class="action-button"
-                    >
-                      ✎
-                    </button>
-                    <button
-                        @click="deleteTodo(todo.id)"
-                        class="action-button"
-                    >
-                      ×
-                    </button>
-                  </div>
-                </template>
-
-                <!-- Edit View -->
-                <template v-else>
-                  <form
-                      @submit.prevent="handleEdit(todo.id)"
-                      class="edit-form"
-                  >
-                    <input
-                        type="text"
-                        v-model="editText"
-                        class="todo-input"
-                        ref="editInput"
-                    >
-                    <div class="form-buttons">
-                      <button
-                          type="button"
-                          @click="cancelEdit"
-                          class="cancel-button"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                          type="submit"
-                          class="submit-button"
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </form>
-                </template>
-              </div>
+            <div v-if="incompleteTodos.length" class="todo-items">
+              <TodoItem
+                  v-for="(todo, index) in incompleteTodos"
+                  :key="todo.id"
+                  :todo="todo"
+                  :index="index"
+                  :read-only="isReadOnly"
+                  @toggle-status="toggleTodoStatus"
+                  @edit="handleEdit"
+                  @delete="deleteTodo"
+              />
+            </div>
+            <div v-else class="empty-state">
+              No active tasks
             </div>
           </div>
 
           <!-- Completed Todos -->
-          <div class="section" v-if="completedTodos.length">
+          <div v-if="completedTodos.length" class="section">
             <h3 class="section-title">Completed</h3>
             <div class="todo-items">
-              <div v-for="todo in completedTodos"
-                   :key="todo.id"
-                   class="todo-item todo-item--completed">
-                <span class="todo-text">{{ todo.text }}</span>
-                <div class="todo-time">{{ formatTime(todo.completedAt) }}</div>
-              </div>
+              <TodoItem
+                  v-for="(todo, index) in completedTodos"
+                  :key="todo.id"
+                  :index="index"
+                  :todo="todo"
+                  :read-only="true"
+              />
             </div>
           </div>
 
           <!-- Failed Todos -->
-          <div class="section" v-if="failedTodos.length">
-            <h3 class="section-title">Failed</h3>
+          <div v-if="failedTodos.length" class="section">
+            <h3 class="section-title">Not Completed</h3>
             <div class="todo-items">
-              <div v-for="todo in failedTodos"
-                   :key="todo.id"
-                   class="todo-item todo-item--failed">
-                <span class="todo-text">{{ todo.text }}</span>
-              </div>
+              <TodoItem
+                  v-for="(todo, index) in failedTodos"
+                  :key="todo.id"
+                  :index="index"
+                  :todo="todo"
+                  :read-only="true"
+              />
             </div>
           </div>
 
@@ -191,6 +163,7 @@ export const TodoList = {
                   <button
                       v-for="mood in moods"
                       :key="mood.value"
+                      type="button"
                       class="mood-button"
                       :class="{ 'mood-button--selected': dailyAssessment.mood === mood.value }"
                       @click="selectMood(mood.value)"
@@ -220,11 +193,11 @@ export const TodoList = {
     setup() {
         const {
             todos,
+            isLoading,
+            error,
+            selectedDate,
             isAddingTodo,
             newTodoText,
-            editingId,
-            editText,
-            selectedDate,
             dailyAssessment,
             incompleteTodos,
             completedTodos,
@@ -237,7 +210,23 @@ export const TodoList = {
             changeDate
         } = useTodos();
 
-        // Calendar logic
+        const selectedEnergy = ref(null);
+
+        const energyLevels = [
+            {value: 'high', name: 'High', icon: '⚡'},
+            {value: 'medium', name: 'Medium', icon: '💪'},
+            {value: 'low', name: 'Low', icon: '🌱'}
+        ];
+
+        const moods = [
+            {value: 1, icon: '😢'},
+            {value: 2, icon: '😕'},
+            {value: 3, icon: '😐'},
+            {value: 4, icon: '🙂'},
+            {value: 5, icon: '😄'}
+        ];
+
+        // Calendar computed properties
         const calendarDays = computed(() => {
             const days = [];
             const currentDate = new Date(selectedDate.value);
@@ -247,15 +236,13 @@ export const TodoList = {
                 const date = new Date(currentDate);
                 date.setDate(date.getDate() - i);
                 days.push({
-                    date: date.toISOString().split('T')[0],
-                    hasTodos: false
+                    date: date.toISOString().split('T')[0]
                 });
             }
 
             // Add current day
             days.push({
-                date: currentDate.toISOString().split('T')[0],
-                hasTodos: false
+                date: currentDate.toISOString().split('T')[0]
             });
 
             // Add next 3 days
@@ -263,23 +250,18 @@ export const TodoList = {
                 const date = new Date(currentDate);
                 date.setDate(date.getDate() + i);
                 days.push({
-                    date: date.toISOString().split('T')[0],
-                    hasTodos: false
+                    date: date.toISOString().split('T')[0]
                 });
             }
 
             return days;
         });
 
-        const moods = [
-            { value: 1, icon: '😢' },
-            { value: 2, icon: '😕' },
-            { value: 3, icon: '😐' },
-            { value: 4, icon: '🙂' },
-            { value: 5, icon: '😄' }
-        ];
+        const isReadOnly = computed(() => {
+            const today = new Date().toISOString().split('T')[0];
+            return selectedDate.value < today;
+        });
 
-        // Computed properties
         const shouldShowAssessment = computed(() => {
             const now = new Date();
             const today = now.toISOString().split('T')[0];
@@ -295,7 +277,8 @@ export const TodoList = {
             });
         });
 
-        // Methods
+        // Calendar methods
+
         const selectDay = async (date) => {
             await changeDate(date);
         };
@@ -329,17 +312,33 @@ export const TodoList = {
             return new Date(dateStr).getDate();
         };
 
-        const formatTime = (timestamp) => {
-            if (!timestamp) return '';
-            return new Date(timestamp).toLocaleTimeString('en-US', {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
+        const hasTodosForDate = (date) => {
+            const dateString = date instanceof Date ?
+                date.toISOString().split('T')[0] :
+                date;
+
+            // First check our cached data
+            if (todosByDate.value.has(dateString)) {
+                return todosByDate.value.get(dateString).length > 0;
+            }
+
+            // If no cached data, check the currently loaded todos
+            if (selectedDate.value === dateString) {
+                return todos.value.length > 0;
+            }
+
+            return false;
         };
 
-        const handleSubmit = () => {
-            if (addTodo(newTodoText.value)) {
+        // Todo methods
+        const handleSubmit = async () => {
+            if (newTodoText.value.trim() && selectedEnergy.value) {
+                await addTodo({
+                    text: newTodoText.value.trim(),
+                    energyLevel: selectedEnergy.value
+                });
                 newTodoText.value = '';
+                selectedEnergy.value = null;
                 isAddingTodo.value = false;
             }
         };
@@ -347,23 +346,11 @@ export const TodoList = {
         const cancelAdd = () => {
             isAddingTodo.value = false;
             newTodoText.value = '';
+            selectedEnergy.value = null;
         };
 
-        const startEdit = (todo) => {
-            editingId.value = todo.id;
-            editText.value = todo.text;
-        };
-
-        const handleEdit = (id) => {
-            if (editTodo(id, editText.value)) {
-                editingId.value = null;
-                editText.value = '';
-            }
-        };
-
-        const cancelEdit = () => {
-            editingId.value = null;
-            editText.value = '';
+        const handleEdit = async (id, text) => {
+            await editTodo(id, text);
         };
 
         const selectMood = (mood) => {
@@ -371,41 +358,39 @@ export const TodoList = {
         };
 
         const saveAssessment = async () => {
-            await saveDailyAssessment(dailyAssessment.value);
+            if (dailyAssessment.value.mood) {
+                await saveDailyAssessment(dailyAssessment.value);
+            }
         };
 
-        // Lifecycle
-        onMounted(async () => {
-            await selectDay(new Date().toISOString().split('T')[0]);
+        // Load initial todos
+        onMounted(() => {
+            const today = new Date().toISOString().split('T')[0];
+            selectDay(today);
         });
 
         return {
             // State
-            todos,
+            isLoading,
+            error,
+            selectedDate,
             isAddingTodo,
             newTodoText,
-            editingId,
-            editText,
-            selectedDate,
+            selectedEnergy,
             dailyAssessment,
-            calendarDays,
+            energyLevels,
             moods,
 
             // Computed
             incompleteTodos,
             completedTodos,
             failedTodos,
+            isReadOnly,
             shouldShowAssessment,
+            calendarDays,
             formatSelectedDate,
 
-            // Methods
-            handleSubmit,
-            cancelAdd,
-            startEdit,
-            handleEdit,
-            cancelEdit,
-            deleteTodo,
-            toggleTodoStatus,
+            // Calendar Methods
             selectDay,
             previousDay,
             nextDay,
@@ -413,7 +398,13 @@ export const TodoList = {
             isToday,
             formatDay,
             formatDate,
-            formatTime,
+
+            // Todo Methods
+            handleSubmit,
+            cancelAdd,
+            handleEdit,
+            deleteTodo,
+            toggleTodoStatus,
             selectMood,
             saveAssessment
         };

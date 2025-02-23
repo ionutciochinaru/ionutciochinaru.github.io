@@ -7,7 +7,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <title>Your Freestyle Career Platform</title>
     <style>
-        /* Base styles */
+        :root {
+            /* Define a modular scale for better visual hierarchy */
+            --text-xs: 0.75rem;    /* 12px */
+            --text-sm: 0.875rem;   /* 14px */
+            --text-base: 1rem;     /* 16px - base font size */
+            --text-lg: 1.125rem;   /* 18px */
+            --text-xl: 1.25rem;    /* 20px */
+            --text-2xl: 1.5rem;    /* 24px */
+            --text-3xl: 1.875rem;  /* 30px */
+            --text-4xl: 2.25rem;   /* 36px */
+            --text-5xl: 3rem;      /* 48px */
+            --text-6xl: 3.75rem;   /* 60px */
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -16,6 +29,10 @@
         }
         body {
             padding-top: 0!important;
+            font-size: var(--text-base);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         /* Hero section */
         .hero {
@@ -32,7 +49,7 @@
         }
         .hero h1 {
             color: #0D1B62;
-            font-size: 100px;
+            font-size: var(--text-6xl);
             margin-bottom: 1rem;
             position: relative;
             z-index: 2;
@@ -42,7 +59,7 @@
         .hero p {
             position: relative;
             z-index: 2;
-            font-size: 35px;
+            font-size: var(--text-2xl);
             font-weight: 300;
             line-height: 32px;
             color: #0D1B62;
@@ -70,14 +87,14 @@
         .stat-item h2 {
             text-align: left;
             font-weight: 600;
-            font-size: 52px;
+            font-size: var(--text-4xl);
             line-height: 60px;
             margin-bottom: 0;
         }
         .stat-item p {
             text-align: center;
             font-weight: 600;
-            font-size: 20px;
+            font-size: var(--text-lg);
             line-height: 28px;
         }
         /* Projects section */
@@ -94,7 +111,7 @@
             margin-bottom: 4rem;
         }
         .project-steps-title h2 {
-            font-size: 48px;
+            font-size: var(--text-4xl);
             color: #0D1B62;
             line-height: 1.2;
             margin: 0;
@@ -120,7 +137,7 @@
         .phone-mockup {
             width: 100%;
             height: auto;
-            border-radius: 30px;
+            border-radius: 48px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
         .step-content {
@@ -129,6 +146,7 @@
             gap: 32px;
             padding: 20px;
             flex-direction: column;
+            min-width: 740px;
         }
         .step-content-inner {
             display: flex;
@@ -158,7 +176,7 @@
             line-height: 1.5;
         }
         .vertical-line {
-            width: 1px;
+            width: 3px;
             height: 192px;
             background-color: #0D1B62;
             display: flex;
@@ -181,7 +199,7 @@
         }
         .testimonials h2 {
             color: white;
-            font-size: 48px;
+            font-size: var(--text-4xl);
             text-align: center;
             margin-bottom: 24px;
             font-weight: 400;
@@ -195,7 +213,7 @@
             text-align: center;
             max-width: 800px;
             margin: 0 auto 60px;
-            font-size: 18px;
+            font-size: var(--text-lg);
             line-height: 1.6;
         }
         .stacked-cards {
@@ -259,20 +277,20 @@
         }
         .testimonial-name {
             color: #0D1B62;
-            font-size: 24px;
+            font-size: var(--text-xl);
             font-weight: 700;
             margin: 0 0 8px;
             text-transform: uppercase;
         }
         .testimonial-role {
             color: #666;
-            font-size: 16px;
+            font-size: var(--text-sm);
             margin-bottom: 24px;
             text-transform: uppercase;
         }
         .testimonial-text {
             color: #666;
-            font-size: 16px;
+            font-size: var(--text-base);
             line-height: 1.6;
             max-width: 500px;
             margin: 0 auto;
@@ -302,42 +320,69 @@
             padding: 80px 20px;
             text-align: center;
             background: white;
+            width: 100%;
         }
         .technologies h2 {
             color: #0D1B62;
-            font-size: 48px;
+            font-size: var(--text-4xl);
             font-weight: 400;
             line-height: 1.2;
-            margin-bottom: 16px;
+            margin-bottom: 40px;
         }
         .technologies h3 {
-            color: #222;
-            font-size: 24px;
+            color: #0D1B62;
+            font-size: var(--text-2xl);
             font-weight: 500;
-            margin-bottom: 48px;
+            margin: 40px 0 48px;
         }
         .tech-grid {
             display: flex;
             justify-content: center;
-            gap: 80px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            max-width: 715px;
+            margin: 0px auto;
+            padding: 0 0 0px 100px;
+            flex-wrap: wrap;
         }
         .tech-column {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            flex: 1;
         }
         .tech-item {
             color: #0D1B62;
-            font-size: 18px;
+            font-size: var(--text-base);
             font-weight: 500;
             text-align: left;
             cursor: pointer;
             transition: color 0.2s ease;
         }
-        .tech-item:hover {
+        .tech-item a {
+            color: #0D1B62;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            display: block;
+            padding: 8px 0;
+        }
+        .tech-item a:hover {
+            color: #2196f3;
+        }
+        .additional-tech-message {
+            text-align: center;
+            margin-top: 3rem;
+            color: #0D1B62;
+            font-size: 18px;
+            padding: 0 20px;
+            line-height: 1.6;
+        }
+        .additional-tech-message a {
+            color: #0D1B62;
+            text-decoration: underline;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 12px;
+            transition: color 0.2s ease;
+        }
+        .additional-tech-message a:hover {
             color: #2196f3;
         }
         /* CTA section */
@@ -347,13 +392,13 @@
             padding: 3rem 5%;
             text-align: center;
         }
-        .cta h2{
+        .cta h2 {
             font-weight: 700;
-            font-size: 55px;
+            font-size: var(--text-4xl);
         }
-        .cta p{
+        .cta p {
             font-weight: 400;
-            font-size: 30px;
+            font-size: var(--text-xl);
         }
         /* Button styles */
         .button {
@@ -372,6 +417,7 @@
             align-items: center;
             justify-content: center;
         }
+        /* FAQ section */
         .faq {
             padding: 80px 20px;
             background: #fff;
@@ -379,59 +425,102 @@
         .faq-container {
             max-width: 1000px;
             margin: 0 auto;
-        }
-        .faq-item {
-            border: 1px solid #E5E7EB;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            overflow: hidden;
-        }
-        .faq-question {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            padding: 24px;
-            cursor: pointer;
-            background: white;
+            padding: 2rem;
         }
-        .faq-question h3 {
-            margin: 0;
-            font-size: 18px;
-            font-weight: 500;
-            color: #0D1B62;
-        }
-        .faq-toggle {
-            background: none;
-            border: none;
-            padding: 0;
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            color: #0D1B62;
-            transition: transform 0.3s ease;
-        }
-        .faq-toggle.active {
-            transform: rotate(180deg);
-        }
-        .faq-answer {
-            max-height: 0;
+        details {
             overflow: hidden;
-            transition: max-height 0.3s ease-out, padding 0.3s ease;
-            padding: 0 24px;
+            margin-top: 14px;
+            border-radius: 18px;
+            width: 80%;
+            box-shadow: 0px 5px 16px 3px rgba(8, 15, 52, 0.06);
         }
-        .faq-answer.show {
-            max-height: 200px;
-            padding: 0 24px 24px 24px;
+        details[open] {
+            border: 1px solid #0d1b62;
         }
-        .faq-answer p {
+        details summary {
+            padding: 35px 52px;
+            display: block;
+            cursor: pointer;
+            position: relative;
+        }
+        details[open] summary {
+            padding-bottom: 20px;
+        }
+        details main {
+            padding: 0 52px;
+        }
+        details h3 {
             margin: 0;
-            color: #4B5563;
-            font-size: 16px;
-            line-height: 1.5;
+            display: flex;
+            font-family: 'Quicksand';
+            font-weight: 600;
+            font-size: var(--text-xl);
+            position: relative;
         }
+        details h3 .arrow {
+            margin-left: auto;
+            position: absolute;
+            right: -6px;
+        }
+        .arrow {
+            width: 40px;
+            height: 40px;
+            background-repeat: no-repeat;
+            background-size: contain;
+            display: inline-block;
+            border-radius: 50px;
+        }
+        /* Arrow states */
+        .arrow {
+            background-image: url('data:image/svg+xml,%3Csvg%20width%3D%2251%22%20height%3D%2252%22%20viewBox%3D%220%200%2051%2052%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Ccircle%20cx%3D%2225.487%22%20cy%3D%2225.926%22%20r%3D%2225.331%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22m22.377%2034.182%208.22-8.256-8.22-8.257%22%20stroke%3D%22%230D1B62%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E');
+        }
+        details:not([open]) .arrow {
+            box-shadow: 0px 5px 16px 1px rgba(8, 15, 52, 0.06);
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background-color: #0D1B62;
+            color: white;
+            padding: 2rem 5%;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item h2 {
+            font-weight: 600;
+            font-size: 52px;
+            line-height: 60px;
+            margin-bottom: 0;
+        }
+
+        .stat-item p {
+            text-align: center;
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 28px;
+        }
+
+        /* Add "+" symbol before the number */
+        .counter::before {
+            content: "+";
+        }
+
+        /* Add "%" symbol after the last counter */
+        .counter[data-target="35"]::after {
+            content: "%";
+        }
+
+        /* Media Queries */
         @media (max-width: 1200px) {
             .hero h1 {
-                font-size: 80px;
+                font-size: var(--text-5xl);
                 line-height: 90px;
             }
             .hero p {
@@ -451,36 +540,49 @@
                 font-size: 22px;
             }
             .step-content h3 {
-                font-size: 28px;
+                font-size: var(--text-2xl);
             }
-            /* Keep original 1024px styles */
             .tech-grid {
                 gap: 40px;
+            }
+            .tech-column {
+                min-width: 180px;
+            }
+            .cta h2 {
+                font-size: 45px;
+            }
+            .cta p {
+                font-size: 25px;
             }
         }
         @media (max-width: 992px) {
             .hero h1 {
-                font-size: 70px;
+                font-size: var(--text-4xl);
                 line-height: 80px;
             }
             .hero p {
-                font-size: 24px;
+                font-size: var(--text-xl);
                 line-height: 32px;
             }
-            .project-steps-title h2 {
-                font-size: 36px;
+            .button {
+                width: 280px;
+                height: 50px;
+                font-size: 22px;
             }
-            .testimonials h2 {
-                font-size: 36px;
+            .stat-item h2 {
+                font-size: 45px;
+                line-height: 55px;
             }
-            .technologies h2 {
-                font-size: 36px;
+            .stat-item p {
+                font-size: 18px;
+                line-height: 26px;
             }
+
             .step-content h3 {
                 font-size: 24px;
             }
             .step-content p {
-                font-size: 16px;
+                font-size: var(--text-base);
             }
             .tech-item {
                 font-size: 16px;
@@ -488,50 +590,17 @@
             .testimonial-text {
                 font-size: 15px;
             }
-        }
-        /* Keep all original mobile styles and add new text-specific ones */
-        @media (max-width: 768px) {
-            /* Original mobile styles */
-            .faq {
-                padding: 40px 20px;
-            }
-            .faq-question h3 {
-                font-size: 16px;
-                padding-right: 16px;
-            }
-            .faq-answer p {
-                font-size: 14px;
-            }
-            .tech-grid {
-                flex-wrap: wrap;
-                gap: 20px;
-            }
-            .tech-column {
-                flex: 1 1 40%;
-                min-width: 120px;
-            }
-            .testimonials h2 {
-                font-size: 36px;
-            }
-            .stacked-cards ul {
-                max-width: 90%;
-            }
             .slider .item {
-                width: 90%;
-                padding: 24px;
+                width: 500px;
             }
-            .step-item {
-                flex-direction: column;
-                text-align: center;
-                gap: 2rem;
+            .cta p {
+                font-size: 22px;
             }
-            .step-content {
-                text-align: center;
+        }
+        @media (max-width: 768px) {
+            .hero {
+                padding: 1.5rem;
             }
-            .step-image {
-                max-width: 250px;
-            }
-            /* New text-specific styles */
             .hero h1 {
                 font-size: 56px;
                 line-height: 66px;
@@ -546,22 +615,84 @@
                 width: 250px;
                 height: 50px;
             }
+            .stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+                padding: 2rem;
+            }
+            .stat-item {
+                text-align: center;
+            }
             .stat-item h2 {
                 font-size: 42px;
                 line-height: 50px;
+                text-align: center;
             }
             .stat-item p {
                 font-size: 16px;
                 line-height: 24px;
             }
+            .finding-projects {
+                padding: 3rem 4%;
+            }
+            .project-steps-title h2,
+            .testimonials h2,
+            .technologies h2,
+            .cta h2 {
+                font-size: var(--text-3xl); /* 30px */
+            }
+
             .project-steps-title h2 {
                 font-size: 32px;
+            }
+            .step-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
+            .step-content {
+                text-align: center;
+                align-items: center;
+            }
+            .step-image {
+                max-width: 250px;
+            }
+            .vertical-line {
+                height: 100px;
+            }
+            .technologies {
+                padding: 40px 16px;
             }
             .technologies h2 {
                 font-size: 32px;
             }
             .technologies h3 {
                 font-size: 20px;
+                margin-bottom: 32px;
+            }
+            .tech-grid {
+                gap: 20px;
+            }
+            .tech-column {
+                flex: 1 1 40%;
+                min-width: 140px;
+            }
+            .tech-item {
+                font-size: 15px;
+            }
+            .testimonials {
+                padding: 40px 16px;
+            }
+            .testimonials h2 {
+                font-size: 36px;
+            }
+            .stacked-cards {
+                height: 350px;
+            }
+            .slider .item {
+                width: 90%;
+                padding: 24px;
             }
             .testimonial-name {
                 font-size: 18px;
@@ -569,11 +700,35 @@
             .testimonial-role {
                 font-size: 14px;
             }
-            .tech-item {
-                font-size: 15px;
+            .cta {
+                padding: 2.5rem 4%;
+            }
+            .cta h2 {
+                font-size: 32px;
+            }
+            .cta p {
+                font-size: 18px;
+            }
+            .faq-container {
+                padding: 1rem;
+            }
+            details {
+                width: 100%;
+            }
+            details summary {
+                padding: 25px 30px;
+            }
+            details main {
+                padding: 0 30px;
+            }
+            details h3 {
+                font-size: 18px;
             }
         }
         @media (max-width: 576px) {
+            .step-content {
+                min-width: auto;
+            }
             .hero h1 {
                 font-size: 42px;
                 line-height: 52px;
@@ -602,7 +757,7 @@
                 font-size: 22px;
             }
             .step-content p {
-                font-size: 15px;
+                font-size: var(--text-base);
             }
             .testimonials h2 {
                 font-size: 28px;
@@ -615,6 +770,7 @@
             }
             .tech-item {
                 font-size: 14px;
+                text-align: center;
             }
             .testimonial-text {
                 font-size: 14px;
@@ -626,14 +782,88 @@
                 font-size: 15px;
                 line-height: 1.5;
             }
+            details summary {
+                padding: 20px 20px;
+            }
+            details main {
+                padding: 0 20px;
+            }
+            details h3 {
+                font-size: 16px;
+            }
+            .arrow {
+                width: 30px;
+                height: 30px;
+            }
         }
-        /* Keep original small screen styles */
         @media (max-width: 480px) {
+            .step-content {
+                min-width: auto;
+            }
             .tech-column {
                 flex: 1 1 100%;
             }
             .tech-item {
                 text-align: center;
+            }
+            .additional-tech-message {
+                font-size: 14px;
+                padding: 0 15px;
+            }
+            .slider .item {
+                padding: 20px;
+            }
+            .testimonial-image {
+                width: 60px;
+                height: 60px;
+            }
+            details {
+                width: 100%;
+            }
+            details summary {
+                padding: 15px;
+            }
+            details main {
+                padding: 0 15px 15px;
+            }
+            .project-steps-title h2,
+            .testimonials h2,
+            .technologies h2,
+            .cta h2 {
+                font-size: var(--text-2xl); /* 24px */
+            }
+        }
+        @media (max-width: 360px) {
+            .step-content {
+                min-width: auto;
+            }
+            .hero h1 {
+                font-size: 36px;
+                line-height: 44px;
+            }
+            .hero p {
+                font-size: 16px;
+                line-height: 24px;
+            }
+            .button {
+                width: 200px;
+                height: 40px;
+                font-size: 16px;
+            }
+            .stat-item h2 {
+                font-size: 32px;
+            }
+            .technologies h2 {
+                font-size: 24px;
+            }
+            .technologies h3 {
+                font-size: 16px;
+            }
+            .cta h2 {
+                font-size: 20px;
+            }
+            .cta p {
+                font-size: 14px;
             }
         }
     </style>
@@ -648,16 +878,16 @@
 </section>
 <section class="stats">
     <div class="stat-item">
-        <h2>+1000</h2>
-        <p>Users in Platform</p>
+        <h2 class="counter" data-target="1000">0</h2>
+        <b>Users in Platform</b>
     </div>
     <div class="stat-item">
-        <h2>+150</h2>
-        <p>Users Registered in last 30 Days</p>
+        <h2 class="counter" data-target="150">0</h2>
+        <b>Users Registered in last 30 Days</b>
     </div>
     <div class="stat-item">
-        <h2>+35%</h2>
-        <p>More Users vs Last Week</p>
+        <h2 class="counter" data-target="35">0</h2>
+        <b>More Users vs Last Week</b>
     </div>
 </section>
 <section class="finding-projects">
@@ -669,7 +899,7 @@
         <div class="steps-container">
             <div class="step-item">
                 <div class="step-image">
-                    <img src="/wp-content/uploads/2025/02/Col-2.png" alt="Get Started Interface" class="phone-mockup">
+                    <img src="/wp-content/uploads/2025/02/Frame-18.png" alt="Get Started Interface" class="phone-mockup">
                 </div>
                 <div class="step-content">
                     <div class="step-content-inner">
@@ -684,7 +914,7 @@
             </div>
             <div class="step-item">
                 <div class="step-image">
-                    <img src="/wp-content/uploads/2025/02/Col-1.png" alt="Build Profile Interface" class="phone-mockup">
+                    <img src="/wp-content/uploads/2025/02/Frame-17.png" alt="Build Profile Interface" class="phone-mockup">
                 </div>
                 <div class="step-content">
                     <div class="step-content-inner">
@@ -699,7 +929,7 @@
             </div>
             <div class="step-item">
                 <div class="step-image">
-                    <img src="/wp-content/uploads/2025/02/Col.png" alt="Find Project Interface" class="phone-mockup">
+                    <img src="/wp-content/uploads/2025/02/Frame-16.png" alt="Find Project Interface" class="phone-mockup">
                 </div>
                 <div class="step-content">
                     <div class="step-content-inner">
@@ -709,7 +939,6 @@
                             <p>Let AI match your skills and preferences to the projects that fit you best</p>
                         </div>
                     </div>
-                    <div class="vertical-line"></div>
                 </div>
             </div>
         </div>
@@ -919,46 +1148,35 @@
 </div>
 <section class="technologies">
     <h2>Browse Projects Based on<br>Your Experience</h2>
-    <h3>Top Technologies</h3>
+    <h3>Featured Technologies</h3>
     <div class="tech-grid">
         <div class="tech-column">
-            <div class="tech-item">.NET</div>
-            <div class="tech-item">App</div>
-            <div class="tech-item">Django</div>
-            <div class="tech-item">Golang</div>
-            <div class="tech-item">Laravel</div>
-            <div class="tech-item">Programmers</div>
-            <div class="tech-item">Ruby on Rails</div>
-            <div class="tech-item">VueJS</div>
+            <div class="tech-item"><a href="https://app.inctrl.ai/worker-anonymous/search-results?searchInput=backend" target="_blank" rel="noopener">Backend</a></div>
+            <div class="tech-item"><a href="https://app.inctrl.ai/worker-anonymous/search-results?searchInput=fullstack" target="_blank" rel="noopener">Fullstack</a></div>
+            <div class="tech-item"><a href="https://app.inctrl.ai/worker-anonymous/search-results?searchInput=javascript" target="_blank" rel="noopener">JavaScript</a></div>
+            <div class="tech-item"><a href="https://app.inctrl.ai/worker-anonymous/search-results?searchInput=reactjs" target="_blank" rel="noopener">ReactJS</a></div>
         </div>
         <div class="tech-column">
-            <div class="tech-item">Android</div>
-            <div class="tech-item">ASP.NET</div>
-            <div class="tech-item">ExpressJS</div>
-            <div class="tech-item">iOS</div>
-            <div class="tech-item">Mobile</div>
-            <div class="tech-item">Python</div>
-            <div class="tech-item">Software</div>
-            <div class="tech-item">Web</div>
+            <div class="tech-item"><a href="https://app.inctrl.ai/worker-anonymous/search-results?searchInput=mobile" target="_blank" rel="noopener">Mobile</a></div>
+            <div class="tech-item"><a href="https://app.inctrl.ai/worker-anonymous/search-results?searchInput=python" target="_blank" rel="noopener">Python</a></div>
+            <div class="tech-item"><a href="https://app.inctrl.ai/worker-anonymous/search-results?searchInput=web" target="_blank" rel="noopener">Web</a></div>
+            <div class="tech-item"><a href="https://app.inctrl.ai/worker-anonymous/search-results?searchInput=vue" target="_blank" rel="noopener">VueJS</a></div>
         </div>
         <div class="tech-column">
-            <div class="tech-item">Angular</div>
-            <div class="tech-item">Azure</div>
-            <div class="tech-item">Frontend</div>
-            <div class="tech-item">Java</div>
-            <div class="tech-item">NodeJS</div>
-            <div class="tech-item">React Native</div>
-            <div class="tech-item">Spring</div>
+            <div class="tech-item"><a href="https://app.inctrl.ai/worker-anonymous/search-results?searchInput=angular" target="_blank" rel="noopener">Angular</a></div>
+            <div class="tech-item"><a href="https://app.inctrl.ai/worker-anonymous/search-results?searchInput=frontend" target="_blank" rel="noopener">Frontend</a></div>
+            <div class="tech-item"><a href="https://app.inctrl.ai/worker-anonymous/search-results?searchInput=node" target="_blank" rel="noopener">NodeJS</a></div>
         </div>
         <div class="tech-column">
-            <div class="tech-item">API</div>
-            <div class="tech-item">Backend</div>
-            <div class="tech-item">Fullstack</div>
-            <div class="tech-item">JavaScript</div>
-            <div class="tech-item">PHP</div>
-            <div class="tech-item">ReactJS</div>
-            <div class="tech-item">Swift</div>
+            <div class="tech-item"><a href="https://app.inctrl.ai/worker-anonymous/search-results?searchInput=react" target="_blank" rel="noopener">React</a></div>
+            <div class="tech-item"><a href="https://app.inctrl.ai/worker-anonymous/search-results?searchInput=spring" target="_blank" rel="noopener">Spring</a></div>
         </div>
+    </div>
+    <div class="additional-tech-message">
+        We have hundreds more available across all domains of software development.<br>
+        <a href="https://app.inctrl.ai/worker-anonymous/search" target="_blank" rel="noopener">
+            Explore all technologies →
+        </a>
     </div>
 </section>
 <section class="cta">
@@ -967,7 +1185,6 @@
         <p>Your time is precious. Forget countless hours posting job ads with poor responses or <br> hoping that recruitment agencies or outsourcing companies will do the work.</p>
         <p>Tell InCtrl's AI engine about your needs, and we will match you with available quality <br> talent in real-time.</p>
     </div>
-
 </section>
 <!-- wp:group {"className":"hill d-flex align-items-center","layout":{"type":"constrained"}} -->
 <div class="wp-block-group hill d-flex align-items-center pt-3">
@@ -1104,6 +1321,54 @@
                 answer.classList.add('show');
                 toggle.classList.add('active');
             }
+        });
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200; // Animation duration in frames
+
+        const animateCounter = (counter) => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            let count = 0;
+
+            // Calculate increment step based on target value
+            const increment = target / speed;
+
+            const updateCount = () => {
+                if (count < target) {
+                    // Use Math.ceil to ensure we reach the target number
+                    count += increment;
+                    // Round the number to avoid decimal places
+                    counter.innerText = Math.floor(count);
+                    // Request next animation frame
+                    requestAnimationFrame(updateCount);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+
+            updateCount();
+        };
+
+        // Start animation when element is in viewport
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    animateCounter(counter);
+                    // Unobserve after animation starts
+                    observer.unobserve(counter);
+                }
+            });
+        }, observerOptions);
+
+        // Observe each counter
+        counters.forEach(counter => {
+            observer.observe(counter);
         });
     });
 </script>

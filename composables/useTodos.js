@@ -1,188 +1,137 @@
 // composables/useTodos.js
 const { ref, computed } = Vue;
-import {
-    collection,
-    query,
-    where,
-    getDocs,
-    addDoc,
-    updateDoc,
-    deleteDoc,
-    doc,
-    orderBy,
-    getDoc
-} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-import { db, auth } from '../firebaseConfig.js';
+import {firebaseService} from '../services/firebaseService.js';
 
 export function useTodos() {
     const todos = ref([]);
+    const isLoading = ref(false);
+    const error = ref(null);
+    const selectedDate = ref(new Date().toISOString().split('T')[0]);
     const isAddingTodo = ref(false);
     const newTodoText = ref('');
     const editingId = ref(null);
     const editText = ref('');
-    const selectedDate = ref(new Date().toISOString().split('T')[0]); // Format: YYYY-MM-DD
     const dailyAssessment = ref({
         mood: null,
         notes: '',
         completed_at: null
     });
 
-    // Get todos for a specific date
+    // Fetch todos
     const fetchTodos = async (date) => {
-        if (!auth.currentUser) return;
-
-        const todosRef = collection(db, 'users', auth.currentUser.uid, 'days', date, 'todos');
-        const q = query(todosRef, orderBy('created_at', 'asc'));
+        isLoading.value = true;
+        error.value = null;
 
         try {
-            const querySnapshot = await getDocs(q);
-            todos.value = querySnapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }));
-        } catch (error) {
-            console.error('Error fetching todos:', error);
+            todos.value = await firebaseService.getTodosForDate(date);
+            console.log(todos.value)
+        } catch (err) {
+            error.value = 'Error loading todos';
+            console.error(err);
+        } finally {
+            isLoading.value = false;
         }
     };
 
-    // Fetch assessment for a specific date
-    const fetchAssessment = async (date) => {
-        if (!auth.currentUser) return;
+    // Add todo
+    const addTodo = async (todoData) => {
+        if (!todoData.text.trim()) return false;
 
-        const assessmentRef = doc(db, 'users', auth.currentUser.uid, 'days', date);
-        try {
-            const docSnap = await getDoc(assessmentRef);
-            if (docSnap.exists()) {
-                dailyAssessment.value = docSnap.data().assessment || {
-                    mood: null,
-                    notes: '',
-                    completed_at: null
-                };
-            }
-        } catch (error) {
-            console.error('Error fetching assessment:', error);
-        }
-    };
-
-    // Change selected date and fetch data
-    const changeDate = async (date) => {
-        selectedDate.value = date;
-        await Promise.all([
-            fetchTodos(date),
-            fetchAssessment(date)
-        ]);
-    };
-
-    // Add new todo
-    const addTodo = async (text) => {
-        if (!text.trim() || !auth.currentUser) return false;
-
-        const todoData = {
-            text: text.trim(),
-            completed: false,
-            failed: false,
-            created_at: new Date().toISOString(),
-            completed_at: null,
-            user_id: auth.currentUser.uid,
-            date: selectedDate.value
+        const newTodo = {
+            ...todoData,
+            created_at: new Date().toISOString()
         };
 
         try {
-            const todosRef = collection(db, 'users', auth.currentUser.uid, 'days', selectedDate.value, 'todos');
-            await addDoc(todosRef, todoData);
+            await firebaseService.addTodo(selectedDate.value, newTodo);
             await fetchTodos(selectedDate.value);
             return true;
-        } catch (error) {
-            console.error('Error adding todo:', error);
+        } catch (err) {
+            error.value = 'Error adding todo';
             return false;
         }
     };
 
     // Edit todo
     const editTodo = async (id, newText) => {
-        if (!newText.trim() || !auth.currentUser) return false;
+        if (!newText.trim()) return false;
 
         try {
-            const todoRef = doc(db, 'users', auth.currentUser.uid, 'days', selectedDate.value, 'todos', id);
-            await updateDoc(todoRef, {
-                text: newText.trim()
-            });
+            await firebaseService.editTodo(selectedDate.value, id, newText);
             await fetchTodos(selectedDate.value);
             return true;
-        } catch (error) {
-            console.error('Error editing todo:', error);
+        } catch (err) {
+            error.value = 'Error editing todo';
             return false;
-        }
-    };
-
-    // Toggle todo status
-    const toggleTodoStatus = async (id, status) => {
-        if (!auth.currentUser) return;
-
-        try {
-            const todoRef = doc(db, 'users', auth.currentUser.uid, 'days', selectedDate.value, 'todos', id);
-            await updateDoc(todoRef, {
-                completed: status === 'completed',
-                failed: status === 'failed',
-                completed_at: status === 'completed' ? new Date().toISOString() : null
-            });
-            await fetchTodos(selectedDate.value);
-        } catch (error) {
-            console.error('Error updating todo status:', error);
         }
     };
 
     // Delete todo
     const deleteTodo = async (id) => {
-        if (!auth.currentUser) return;
-
         try {
-            const todoRef = doc(db, 'users', auth.currentUser.uid, 'days', selectedDate.value, 'todos', id);
-            await deleteDoc(todoRef);
+            await firebaseService.deleteTodo(selectedDate.value, id);
             await fetchTodos(selectedDate.value);
-        } catch (error) {
-            console.error('Error deleting todo:', error);
+        } catch (err) {
+            error.value = 'Error deleting todo';
+        }
+    };
+
+    // Toggle todo status
+    const toggleTodoStatus = async (id, status) => {
+        try {
+            await firebaseService.updateTodoStatus(selectedDate.value, id, status);
+            await fetchTodos(selectedDate.value);
+        } catch (err) {
+            error.value = 'Error updating todo status';
+            console.error('Error updating todo status:', err);
         }
     };
 
     // Save daily assessment
     const saveDailyAssessment = async (assessment) => {
-        if (!auth.currentUser) return;
-
         try {
-            const dayRef = doc(db, 'users', auth.currentUser.uid, 'days', selectedDate.value);
-            await updateDoc(dayRef, {
-                assessment: {
-                    ...assessment,
-                    completed_at: new Date().toISOString()
-                }
-            });
-        } catch (error) {
-            console.error('Error saving assessment:', error);
+            await firebaseService.saveDailyAssessment(selectedDate.value, assessment);
+        } catch (err) {
+            error.value = 'Error saving assessment';
         }
+    };
+
+    // Change date and fetch data
+    const changeDate = async (date) => {
+        selectedDate.value = date;
+        await fetchTodos(date);
+
+        // Reset daily assessment
+        dailyAssessment.value = {
+            mood: null,
+            notes: '',
+            completed_at: null
+        };
     };
 
     // Computed properties
     const incompleteTodos = computed(() =>
-        todos.value.filter(todo => !todo.completed && !todo.failed)
+        todos.value.filter(todo => !todo.status || todo.status === 'active')
     );
 
     const completedTodos = computed(() =>
-        todos.value.filter(todo => todo.completed)
+        todos.value.filter(todo => todo.status === 'completed')
     );
 
     const failedTodos = computed(() =>
-        todos.value.filter(todo => todo.failed)
+        todos.value.filter(todo => todo.status === 'failed')
     );
 
     return {
         // State
         todos,
+        isLoading,
+        error,
+        selectedDate,
         isAddingTodo,
         newTodoText,
         editingId,
         editText,
-        selectedDate,
         dailyAssessment,
 
         // Computed
@@ -191,13 +140,12 @@ export function useTodos() {
         failedTodos,
 
         // Methods
+        fetchTodos,
         addTodo,
         editTodo,
         deleteTodo,
         toggleTodoStatus,
-        fetchTodos,
-        fetchAssessment,
-        changeDate,
-        saveDailyAssessment
+        saveDailyAssessment,
+        changeDate
     };
 }
